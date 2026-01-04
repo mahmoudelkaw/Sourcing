@@ -2,6 +2,8 @@ import { Hono } from 'hono'
 import { cors } from 'hono/cors'
 import { serveStatic } from 'hono/cloudflare-workers'
 import authRoutes from './routes/auth'
+import productsRoutes from './routes/products'
+import rfqsRoutes from './routes/rfqs'
 import { authMiddleware } from './middleware/auth'
 import type { Bindings } from './types'
 
@@ -15,6 +17,8 @@ app.use('/static/*', serveStatic({ root: './public' }))
 
 // API Routes
 app.route('/api/auth', authRoutes)
+app.route('/api/products', productsRoutes)
+app.route('/api/rfqs', rfqsRoutes)
 
 // Protected API example (with auth middleware)
 app.get('/api/protected', authMiddleware, (c) => {
@@ -434,6 +438,273 @@ app.get('/register', (c) => {
                 <a href="/" class="text-purple-600 hover:underline">← Back to home</a>
             </div>
         </div>
+    </body>
+    </html>
+  `)
+})
+
+// Buyer Dashboard
+app.get('/buyer/dashboard', (c) => {
+  return c.html(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Buyer Dashboard - Sourssing</title>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+        <style>
+          body { font-family: "Inter", sans-serif; }
+          .nav-link.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+          }
+        </style>
+    </head>
+    <body class="bg-gray-50">
+        <!-- Top Navigation -->
+        <nav class="bg-white shadow-sm border-b border-gray-200">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-16">
+                    <div class="flex items-center gap-3">
+                        <i class="fas fa-layer-group text-2xl text-purple-600"></i>
+                        <span class="text-xl font-bold text-gray-900">Sourssing</span>
+                        <span class="text-sm text-gray-500 ml-2">| Buyer Portal</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <button onclick="toggleLanguage()" class="text-gray-600 hover:text-purple-600">
+                            <i class="fas fa-language mr-2"></i>
+                            <span id="lang-toggle">العربية</span>
+                        </button>
+                        <div class="relative">
+                            <button onclick="toggleUserMenu()" class="flex items-center gap-2 text-gray-700 hover:text-purple-600">
+                                <i class="fas fa-user-circle text-2xl"></i>
+                                <span id="user-name">Loading...</span>
+                                <i class="fas fa-chevron-down text-xs"></i>
+                            </button>
+                            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user mr-2"></i>Profile
+                                </a>
+                                <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-cog mr-2"></i>Settings
+                                </a>
+                                <hr class="my-2">
+                                <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <div class="flex h-screen">
+            <!-- Sidebar -->
+            <aside class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+                <nav class="p-4 space-y-2">
+                    <a href="/buyer/dashboard" class="nav-link active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-home w-5"></i>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="/buyer/catalog" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-th-large w-5"></i>
+                        <span>Product Catalog</span>
+                    </a>
+                    <a href="/buyer/rfq/create" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-plus-circle w-5"></i>
+                        <span>Create RFQ</span>
+                    </a>
+                    <a href="/buyer/rfqs" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-file-alt w-5"></i>
+                        <span>My RFQs</span>
+                    </a>
+                    <a href="/buyer/quotations" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-file-invoice-dollar w-5"></i>
+                        <span>Quotations</span>
+                    </a>
+                    <a href="/buyer/orders" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-shopping-cart w-5"></i>
+                        <span>My Orders</span>
+                    </a>
+                    <a href="/buyer/buy-again" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-redo w-5"></i>
+                        <span>Buy Again</span>
+                    </a>
+                </nav>
+            </aside>
+
+            <!-- Main Content -->
+            <main class="flex-1 overflow-y-auto p-8">
+                <!-- Dashboard Header -->
+                <div class="mb-8">
+                    <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+                    <p class="text-gray-600">Welcome back! Here's what's happening with your orders.</p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total RFQs</p>
+                                <p class="text-3xl font-bold text-gray-900" id="stat-rfqs">0</p>
+                            </div>
+                            <div class="bg-purple-100 p-3 rounded-lg">
+                                <i class="fas fa-file-alt text-purple-600 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Pending Quotations</p>
+                                <p class="text-3xl font-bold text-gray-900" id="stat-quotations">0</p>
+                            </div>
+                            <div class="bg-blue-100 p-3 rounded-lg">
+                                <i class="fas fa-file-invoice-dollar text-blue-600 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Active Orders</p>
+                                <p class="text-3xl font-bold text-gray-900" id="stat-orders">0</p>
+                            </div>
+                            <div class="bg-green-100 p-3 rounded-lg">
+                                <i class="fas fa-shopping-cart text-green-600 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-lg shadow p-6">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                <p class="text-gray-500 text-sm">Total Spent</p>
+                                <p class="text-3xl font-bold text-gray-900" id="stat-spent">EGP 0</p>
+                            </div>
+                            <div class="bg-yellow-100 p-3 rounded-lg">
+                                <i class="fas fa-money-bill-wave text-yellow-600 text-2xl"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent RFQs -->
+                <div class="bg-white rounded-lg shadow mb-8">
+                    <div class="p-6 border-b border-gray-200">
+                        <div class="flex justify-between items-center">
+                            <h2 class="text-xl font-bold text-gray-900">Recent RFQs</h2>
+                            <a href="/buyer/rfqs" class="text-purple-600 hover:text-purple-700 font-medium">
+                                View All <i class="fas fa-arrow-right ml-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div id="recent-rfqs" class="p-6">
+                        <div class="text-center py-8 text-gray-500">
+                            <i class="fas fa-file-alt text-4xl mb-2"></i>
+                            <p>No RFQs yet. Create your first RFQ to get started!</p>
+                            <a href="/buyer/rfq/create" class="inline-block mt-4 bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition">
+                                <i class="fas fa-plus mr-2"></i>Create RFQ
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <a href="/buyer/catalog" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition text-center">
+                        <i class="fas fa-th-large text-4xl text-purple-600 mb-3"></i>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Browse Catalog</h3>
+                        <p class="text-gray-600 text-sm">Explore our wide range of products</p>
+                    </a>
+                    
+                    <a href="/buyer/rfq/create" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition text-center">
+                        <i class="fas fa-plus-circle text-4xl text-green-600 mb-3"></i>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Create RFQ</h3>
+                        <p class="text-gray-600 text-sm">Submit a new request for quotation</p>
+                    </a>
+                    
+                    <a href="/buyer/buy-again" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition text-center">
+                        <i class="fas fa-redo text-4xl text-blue-600 mb-3"></i>
+                        <h3 class="text-lg font-bold text-gray-900 mb-2">Buy Again</h3>
+                        <p class="text-gray-600 text-sm">Reorder your frequently purchased items</p>
+                    </a>
+                </div>
+            </main>
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+        <script>
+          // Check authentication
+          const token = localStorage.getItem('token');
+          const user = JSON.parse(localStorage.getItem('user') || '{}');
+          
+          if (!token || user.role !== 'buyer') {
+            window.location.href = '/login';
+          }
+          
+          // Set axios default header
+          axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+          
+          // Display user name
+          axios.get('/api/auth/me')
+            .then(response => {
+              if (response.data.success) {
+                const profile = response.data.data.profile;
+                document.getElementById('user-name').textContent = profile?.contact_person || user.email;
+              }
+            })
+            .catch(error => {
+              console.error('Failed to load user profile');
+            });
+          
+          // Load dashboard stats
+          function loadStats() {
+            axios.get('/api/rfqs')
+              .then(response => {
+                if (response.data.success) {
+                  document.getElementById('stat-rfqs').textContent = response.data.data.pagination.total;
+                }
+              })
+              .catch(error => console.error('Failed to load stats'));
+          }
+          
+          loadStats();
+          
+          // Toggle user menu
+          function toggleUserMenu() {
+            document.getElementById('user-menu').classList.toggle('hidden');
+          }
+          
+          // Close menu when clicking outside
+          document.addEventListener('click', (e) => {
+            const menu = document.getElementById('user-menu');
+            const button = event.target.closest('button[onclick="toggleUserMenu()"]');
+            if (!button && !menu.contains(event.target)) {
+              menu.classList.add('hidden');
+            }
+          });
+          
+          // Logout
+          function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            window.location.href = '/login';
+          }
+          
+          // Language toggle
+          function toggleLanguage() {
+            // TODO: Implement language switching
+            alert('Language switching will be implemented');
+          }
+        </script>
     </body>
     </html>
   `)

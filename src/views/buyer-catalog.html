@@ -1,0 +1,328 @@
+<!-- This will be embedded in the main app -->
+<!-- Buyer Product Catalog Page -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Catalog - Sourssing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+      body { font-family: "Inter", sans-serif; }
+      .nav-link.active { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; }
+      .product-card { transition: transform 0.2s, box-shadow 0.2s; }
+      .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Top Navigation (Same as dashboard) -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center gap-3">
+                    <i class="fas fa-layer-group text-2xl text-purple-600"></i>
+                    <span class="text-xl font-bold text-gray-900">Sourssing</span>
+                    <span class="text-sm text-gray-500 ml-2">| Buyer Portal</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <button onclick="toggleLanguage()" class="text-gray-600 hover:text-purple-600">
+                        <i class="fas fa-language mr-2"></i>
+                        <span id="lang-toggle">العربية</span>
+                    </button>
+                    <div class="relative">
+                        <button onclick="toggleUserMenu()" class="flex items-center gap-2 text-gray-700 hover:text-purple-600">
+                            <i class="fas fa-user-circle text-2xl"></i>
+                            <span id="user-name">Loading...</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-user mr-2"></i>Profile
+                            </a>
+                            <a href="#" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                <i class="fas fa-cog mr-2"></i>Settings
+                            </a>
+                            <hr class="my-2">
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
+                                <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="flex h-screen">
+        <!-- Sidebar (Same as dashboard) -->
+        <aside class="w-64 bg-white border-r border-gray-200 overflow-y-auto">
+            <nav class="p-4 space-y-2">
+                <a href="/buyer/dashboard" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-home w-5"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/buyer/catalog" class="nav-link active flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-th-large w-5"></i>
+                    <span>Product Catalog</span>
+                </a>
+                <a href="/buyer/rfq/create" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-plus-circle w-5"></i>
+                    <span>Create RFQ</span>
+                </a>
+                <a href="/buyer/rfqs" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-file-alt w-5"></i>
+                    <span>My RFQs</span>
+                </a>
+                <a href="/buyer/quotations" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-file-invoice-dollar w-5"></i>
+                    <span>Quotations</span>
+                </a>
+                <a href="/buyer/orders" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-shopping-cart w-5"></i>
+                    <span>My Orders</span>
+                </a>
+                <a href="/buyer/buy-again" class="nav-link flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                    <i class="fas fa-redo w-5"></i>
+                    <span>Buy Again</span>
+                </a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto p-8">
+            <!-- Page Header -->
+            <div class="mb-8">
+                <h1 class="text-3xl font-bold text-gray-900 mb-2">Product Catalog</h1>
+                <p class="text-gray-600">Browse our extensive catalog of B2B products</p>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="bg-white rounded-lg shadow p-6 mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="md:col-span-2">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Search Products</label>
+                        <div class="relative">
+                            <input type="text" id="search-input" placeholder="Search by name, SKU, or brand..."
+                                   class="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            <i class="fas fa-search absolute left-3 top-4 text-gray-400"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Category</label>
+                        <select id="category-filter" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            <option value="">All Categories</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Products Grid -->
+            <div id="products-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Loading skeleton -->
+                <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+                    <div class="h-40 bg-gray-200 rounded mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+                    <div class="h-40 bg-gray-200 rounded mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+                <div class="bg-white rounded-lg shadow p-6 animate-pulse">
+                    <div class="h-40 bg-gray-200 rounded mb-4"></div>
+                    <div class="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+                </div>
+            </div>
+
+            <!-- Pagination -->
+            <div id="pagination" class="mt-8 flex justify-center">
+                <!-- Pagination will be inserted here -->
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+      // Check authentication
+      const token = localStorage.getItem('token');
+      const user = JSON.parse(localStorage.getItem('user') || '{}');
+      
+      if (!token || user.role !== 'buyer') {
+        window.location.href = '/login';
+      }
+      
+      // Set axios default header
+      axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+      
+      let currentPage = 1;
+      let currentCategory = '';
+      let currentSearch = '';
+      
+      // Load categories
+      function loadCategories() {
+        axios.get('/api/products/categories/list')
+          .then(response => {
+            if (response.data.success) {
+              const select = document.getElementById('category-filter');
+              response.data.data.categories.forEach(cat => {
+                const option = document.createElement('option');
+                option.value = cat.id;
+                option.textContent = cat.name + ' (' + cat.product_count + ')';
+                select.appendChild(option);
+              });
+            }
+          })
+          .catch(error => console.error('Failed to load categories'));
+      }
+      
+      // Load products
+      function loadProducts() {
+        const params = new URLSearchParams({
+          page: currentPage,
+          limit: 12
+        });
+        
+        if (currentCategory) params.append('category', currentCategory);
+        if (currentSearch) params.append('search', currentSearch);
+        
+        axios.get('/api/products?' + params.toString())
+          .then(response => {
+            if (response.data.success) {
+              displayProducts(response.data.data.products);
+              displayPagination(response.data.data.pagination);
+            }
+          })
+          .catch(error => {
+            console.error('Failed to load products');
+            document.getElementById('products-grid').innerHTML = '<div class="col-span-full text-center py-8 text-red-600">Failed to load products</div>';
+          });
+      }
+      
+      // Display products
+      function displayProducts(products) {
+        const grid = document.getElementById('products-grid');
+        
+        if (products.length === 0) {
+          grid.innerHTML = '<div class="col-span-full text-center py-12 text-gray-500"><i class="fas fa-box-open text-4xl mb-2"></i><p>No products found</p></div>';
+          return;
+        }
+        
+        grid.innerHTML = products.map(product => `
+          <div class="product-card bg-white rounded-lg shadow overflow-hidden cursor-pointer" onclick="viewProduct(${product.id})">
+            <div class="h-48 bg-gradient-to-br from-purple-100 to-blue-100 flex items-center justify-center">
+              <i class="fas fa-box text-5xl text-purple-400"></i>
+            </div>
+            <div class="p-6">
+              <div class="flex justify-between items-start mb-2">
+                <h3 class="font-bold text-gray-900">${product.name}</h3>
+                ${product.base_price ? `<span class="text-purple-600 font-bold">EGP ${product.base_price.toFixed(2)}</span>` : ''}
+              </div>
+              <p class="text-sm text-gray-600 mb-2">${product.name_ar || ''}</p>
+              <div class="flex items-center gap-2 text-sm text-gray-500">
+                <span class="bg-gray-100 px-2 py-1 rounded">${product.sku}</span>
+                ${product.brand ? `<span class="bg-purple-100 text-purple-700 px-2 py-1 rounded">${product.brand}</span>` : ''}
+              </div>
+              <div class="mt-4 flex items-center justify-between">
+                <span class="text-xs text-gray-500">MOQ: ${product.moq} ${product.unit}</span>
+                <button onclick="event.stopPropagation(); addToRFQ(${product.id})" class="text-purple-600 hover:text-purple-700 text-sm font-medium">
+                  <i class="fas fa-plus mr-1"></i>Add to RFQ
+                </button>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      }
+      
+      // Display pagination
+      function displayPagination(pagination) {
+        const div = document.getElementById('pagination');
+        if (pagination.totalPages <= 1) {
+          div.innerHTML = '';
+          return;
+        }
+        
+        let html = '<div class="flex gap-2">';
+        
+        // Previous button
+        if (pagination.page > 1) {
+          html += `<button onclick="changePage(${pagination.page - 1})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Previous</button>`;
+        }
+        
+        // Page numbers
+        for (let i = 1; i <= pagination.totalPages; i++) {
+          if (i === pagination.page) {
+            html += `<button class="px-4 py-2 bg-purple-600 text-white rounded-lg">${i}</button>`;
+          } else if (i === 1 || i === pagination.totalPages || Math.abs(i - pagination.page) <= 1) {
+            html += `<button onclick="changePage(${i})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">${i}</button>`;
+          } else if (Math.abs(i - pagination.page) === 2) {
+            html += `<span class="px-2 py-2">...</span>`;
+          }
+        }
+        
+        // Next button
+        if (pagination.page < pagination.totalPages) {
+          html += `<button onclick="changePage(${pagination.page + 1})" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50">Next</button>`;
+        }
+        
+        html += '</div>';
+        div.innerHTML = html;
+      }
+      
+      // Change page
+      function changePage(page) {
+        currentPage = page;
+        loadProducts();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+      
+      // Search products
+      document.getElementById('search-input').addEventListener('input', function(e) {
+        currentSearch = e.target.value;
+        currentPage = 1;
+        loadProducts();
+      });
+      
+      // Filter by category
+      document.getElementById('category-filter').addEventListener('change', function(e) {
+        currentCategory = e.target.value;
+        currentPage = 1;
+        loadProducts();
+      });
+      
+      // View product details
+      function viewProduct(id) {
+        alert('Product details page will be implemented. Product ID: ' + id);
+      }
+      
+      // Add to RFQ
+      function addToRFQ(id) {
+        alert('Add to RFQ functionality will be implemented. Product ID: ' + id);
+      }
+      
+      // Toggle user menu
+      function toggleUserMenu() {
+        document.getElementById('user-menu').classList.toggle('hidden');
+      }
+      
+      // Logout
+      function logout() {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        window.location.href = '/login';
+      }
+      
+      // Language toggle
+      function toggleLanguage() {
+        alert('Language switching will be implemented');
+      }
+      
+      // Initialize
+      loadCategories();
+      loadProducts();
+    </script>
+</body>
+</html>
