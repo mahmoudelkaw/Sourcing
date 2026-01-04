@@ -2,12 +2,13 @@
 
 import { Hono } from 'hono'
 import { buyerLayout } from '../lib/buyer-layout'
-import type { Bindings } from '../types'
+import type { Bindings, Language } from '../types'
 
 const buyerPages = new Hono<{ Bindings: Bindings }>()
 
 // Product Catalog Page
 buyerPages.get('/catalog', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
   const content = `
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Product Catalog</h1>
@@ -186,11 +187,12 @@ buyerPages.get('/catalog', (c) => {
     </script>
   `
   
-  return c.html(buyerLayout(content, 'catalog'))
+  return c.html(buyerLayout(content, 'catalog', lang))
 })
 
 // Create RFQ Page
 buyerPages.get('/rfq/create', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
   const content = `
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Create RFQ</h1>
@@ -390,11 +392,12 @@ buyerPages.get('/rfq/create', (c) => {
     </script>
   `
   
-  return c.html(buyerLayout(content, 'create-rfq'))
+  return c.html(buyerLayout(content, 'create-rfq', lang))
 })
 
 // My RFQs Listing Page
 buyerPages.get('/rfqs', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
   const content = `
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">My RFQs</h1>
@@ -592,11 +595,12 @@ buyerPages.get('/rfqs', (c) => {
     </script>
   `
   
-  return c.html(buyerLayout(content, 'rfqs'))
+  return c.html(buyerLayout(content, 'rfqs', lang))
 })
 
 // My Orders Page
 buyerPages.get('/orders', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
   const content = `
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
@@ -901,11 +905,12 @@ buyerPages.get('/orders', (c) => {
     </script>
   `
   
-  return c.html(buyerLayout(content, 'orders'))
+  return c.html(buyerLayout(content, 'orders', lang))
 })
 
 // Upload & OCR Page
 buyerPages.get('/upload', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
   const content = `
     <div class="mb-8">
         <h1 class="text-3xl font-bold text-gray-900 mb-2">Upload & Create RFQ</h1>
@@ -1167,7 +1172,7 @@ buyerPages.get('/upload', (c) => {
     </script>
   `
   
-  return c.html(buyerLayout(content, 'upload'))
+  return c.html(buyerLayout(content, 'upload', lang))
 })
 
 export default buyerPages

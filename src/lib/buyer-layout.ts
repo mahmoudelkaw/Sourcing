@@ -1,27 +1,50 @@
 // Buyer Portal Layout Helper
+import type { Language } from '../types'
 
-export function buyerLayout(content: string, activeMenu: string = 'dashboard') {
+export function buyerLayout(content: string, activeMenu: string = 'dashboard', lang: Language = 'en') {
+  const isRTL = lang === 'ar'
+  const dir = isRTL ? 'rtl' : 'ltr'
+  
+  // Font based on language
+  const fontFamily = isRTL 
+    ? '"Cairo", "Inter", sans-serif' 
+    : '"Inter", sans-serif'
+  
+  const fontLink = isRTL
+    ? 'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap'
+    : 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
+  
   return `
     <!DOCTYPE html>
-    <html lang="en">
+    <html lang="${lang}" dir="${dir}">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Buyer Portal - Sourssing</title>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+        <link href="${fontLink}" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
         <style>
-          body { font-family: "Inter", sans-serif; }
+          body { font-family: ${fontFamily}; }
           .nav-link.active {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
           }
           .product-card { transition: transform 0.2s, box-shadow 0.2s; }
           .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+          ${isRTL ? `
+          [dir="rtl"] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+          [dir="rtl"] .mr-2 { margin-right: 0; margin-left: 0.5rem; }
+          [dir="rtl"] .ml-4 { margin-left: 0; margin-right: 1rem; }
+          [dir="rtl"] .mr-4 { margin-right: 0; margin-left: 1rem; }
+          [dir="rtl"] .pl-4 { padding-left: 0; padding-right: 1rem; }
+          [dir="rtl"] .pr-4 { padding-right: 0; padding-left: 1rem; }
+          [dir="rtl"] .text-left { text-align: right; }
+          [dir="rtl"] .text-right { text-align: left; }
+          ` : ''}
         </style>
     </head>
-    <body class="bg-gray-50">
+    <body class="bg-gray-50" data-lang="${lang}">
         <!-- Top Navigation -->
         <nav class="bg-white shadow-sm border-b border-gray-200">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -32,19 +55,25 @@ export function buyerLayout(content: string, activeMenu: string = 'dashboard') {
                         <span class="text-sm text-gray-500 ml-2">| Buyer Portal</span>
                     </div>
                     <div class="flex items-center gap-4">
+                        <!-- Language Toggle -->
+                        <button id="lang-toggle-btn" class="flex items-center gap-2 px-3 py-2 text-sm rounded-lg hover:bg-gray-100 transition-colors" title="${isRTL ? 'Switch to English' : 'التبديل إلى العربية'}">
+                            <i class="fas fa-language"></i>
+                            <span>${isRTL ? 'English' : 'العربية'}</span>
+                        </button>
+                        
                         <div class="relative">
                             <button onclick="toggleUserMenu()" class="flex items-center gap-2 text-gray-700 hover:text-purple-600">
                                 <i class="fas fa-user-circle text-2xl"></i>
-                                <span id="user-name">Loading...</span>
+                                <span id="user-name">${isRTL ? 'جاري التحميل...' : 'Loading...'}</span>
                                 <i class="fas fa-chevron-down text-xs"></i>
                             </button>
-                            <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
-                                <a href="/buyer/dashboard" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
-                                    <i class="fas fa-user mr-2"></i>Profile
+                            <div id="user-menu" class="hidden absolute ${isRTL ? 'left-0' : 'right-0'} mt-2 w-48 bg-white rounded-lg shadow-lg py-2 z-50">
+                                <a href="/buyer/dashboard?lang=${lang}" class="block px-4 py-2 text-gray-700 hover:bg-gray-100">
+                                    <i class="fas fa-user ${isRTL ? 'ml-2' : 'mr-2'}"></i>${isRTL ? 'الملف الشخصي' : 'Profile'}
                                 </a>
                                 <hr class="my-2">
                                 <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-gray-100">
-                                    <i class="fas fa-sign-out-alt mr-2"></i>Logout
+                                    <i class="fas fa-sign-out-alt ${isRTL ? 'ml-2' : 'mr-2'}"></i>${isRTL ? 'تسجيل الخروج' : 'Logout'}
                                 </a>
                             </div>
                         </div>
@@ -141,6 +170,17 @@ export function buyerLayout(content: string, activeMenu: string = 'dashboard') {
             localStorage.removeItem('user');
             window.location.href = '/login';
           }
+          
+          // Language toggle
+          document.getElementById('lang-toggle-btn').addEventListener('click', function() {
+            const currentLang = document.body.dataset.lang || 'en';
+            const newLang = currentLang === 'en' ? 'ar' : 'en';
+            localStorage.setItem('lang', newLang);
+            
+            const url = new URL(window.location.href);
+            url.searchParams.set('lang', newLang);
+            window.location.href = url.toString();
+          });
         </script>
     </body>
     </html>

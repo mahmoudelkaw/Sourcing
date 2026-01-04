@@ -1,26 +1,46 @@
 // Vendor Portal Shared Layout
+import type { Language } from '../types'
 
-export function getVendorLayout(content: string, title: string = 'Vendor Portal') {
+export function getVendorLayout(content: string, title: string = 'Vendor Portal', lang: Language = 'en') {
+  const isRTL = lang === 'ar'
+  const dir = isRTL ? 'rtl' : 'ltr'
+  
+  const fontFamily = isRTL 
+    ? '"Cairo", "Inter", sans-serif' 
+    : '"Inter", sans-serif'
+  
+  const fontLink = isRTL
+    ? 'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap'
+    : 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
+  
   return `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}" dir="${dir}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} - Sourssing</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="${fontLink}" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: ${fontFamily}; }
         .nav-link.active { 
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
         }
         .card-hover:hover { transform: translateY(-2px); box-shadow: 0 10px 25px rgba(0,0,0,0.1); }
+        ${isRTL ? `
+        [dir="rtl"] .ml-1 { margin-left: 0; margin-right: 0.25rem; }
+        [dir="rtl"] .mr-1 { margin-right: 0; margin-left: 0.25rem; }
+        [dir="rtl"] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+        [dir="rtl"] .mr-2 { margin-right: 0; margin-left: 0.5rem; }
+        [dir="rtl"] .text-left { text-align: right; }
+        [dir="rtl"] .text-right { text-align: left; }
+        ` : ''}
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50" data-lang="${lang}">
     <!-- Navigation -->
     <nav class="bg-white shadow-sm border-b border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

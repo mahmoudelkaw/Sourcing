@@ -1,27 +1,45 @@
 // Admin Portal Shared Layout
+import type { Language } from '../types'
 
-export function getAdminLayout(content: string, title: string = 'Admin Portal') {
+export function getAdminLayout(content: string, title: string = 'Admin Portal', lang: Language = 'en') {
+  const isRTL = lang === 'ar'
+  const dir = isRTL ? 'rtl' : 'ltr'
+  
+  const fontFamily = isRTL 
+    ? '"Cairo", "Inter", sans-serif' 
+    : '"Inter", sans-serif'
+  
+  const fontLink = isRTL
+    ? 'https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&display=swap'
+    : 'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap'
+  
   return `
 <!DOCTYPE html>
-<html lang="en">
+<html lang="${lang}" dir="${dir}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>${title} - Sourssing Admin</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="${fontLink}" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
     <style>
-        body { font-family: 'Inter', sans-serif; }
+        body { font-family: ${fontFamily}; }
         .nav-link.active { 
             background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
             color: white;
         }
         .stat-card { transition: all 0.3s; }
         .stat-card:hover { transform: translateY(-5px); box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+        ${isRTL ? `
+        [dir="rtl"] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+        [dir="rtl"] .mr-2 { margin-right: 0; margin-left: 0.5rem; }
+        [dir="rtl"] .text-left { text-align: right; }
+        [dir="rtl"] .text-right { text-align: left; }
+        ` : ''}
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50" data-lang="${lang}">
     <!-- Navigation -->
     <nav class="bg-gradient-to-r from-orange-600 to-amber-600 text-white shadow-lg">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
