@@ -5,7 +5,7 @@
 -- ============================================
 -- Password: admin123 (bcrypt hash)
 INSERT OR IGNORE INTO users (id, email, password_hash, role, status) VALUES 
-(1, 'admin@sourssing.com', '$2a$10$rN8lZ3KGd4kF.HxV2pL8g.YQPDxVkJqZJ7yXKx9vKJxY8fZ0K0K0K', 'admin', 'active');
+(1, 'admin@lesorce.com', '$2a$10$rN8lZ3KGd4kF.HxV2pL8g.YQPDxVkJqZJ7yXKx9vKJxY8fZ0K0K0K', 'admin', 'active');
 
 -- ============================================
 -- SEED: Categories (Bilingual)

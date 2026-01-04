@@ -6,7 +6,7 @@ import type { Language, Translations } from '../types'
 export const translations: Translations = {
   // Navigation & Common
   'nav.home': { en: 'Home', ar: 'الرئيسية' },
-  'nav.about': { en: 'About', ar: 'عن سورسنج' },
+  'nav.about': { en: 'About', ar: 'عن ليسورس' },
   'nav.how_it_works': { en: 'How It Works', ar: 'كيف يعمل' },
   'nav.contact': { en: 'Contact', ar: 'اتصل بنا' },
   'nav.login': { en: 'Login', ar: 'تسجيل الدخول' },

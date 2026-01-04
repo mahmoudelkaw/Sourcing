@@ -1,7 +1,7 @@
-# 🔍 Sourssing Platform - Comprehensive SEO Audit Report
+# 🔍 lesorce Platform - Comprehensive SEO Audit Report
 
 **Date**: January 4, 2026  
-**Platform**: Sourssing B2B Procurement Platform  
+**Platform**: lesorce B2B Procurement Platform  
 **SEO Score**: ⭐⭐⭐⭐⭐ 98/100 (EXCELLENT)  
 **Status**: ✅ **PRODUCTION READY - FULLY OPTIMIZED**
 
@@ -9,7 +9,7 @@
 
 ## 📊 Executive Summary
 
-The Sourssing platform has been **comprehensively optimized** following Google's latest SEO best practices and recommendations. The platform demonstrates excellent technical SEO, on-page optimization, performance, mobile-friendliness, and international SEO implementation.
+The lesorce platform has been **comprehensively optimized** following Google's latest SEO best practices and recommendations. The platform demonstrates excellent technical SEO, on-page optimization, performance, mobile-friendliness, and international SEO implementation.
 
 ### Overall SEO Health
 - ✅ **Technical SEO**: 100/100
@@ -29,7 +29,7 @@ The Sourssing platform has been **comprehensively optimized** following Google's
 #### Meta Tags (Complete)
 ```html
 <!-- Title Tag (55-60 chars optimal) -->
-<title>Sourssing | B2B Procurement Platform for Egyptian Enterprises</title>
+<title>lesorce | B2B Procurement Platform for Egyptian Enterprises</title>
 
 <!-- Meta Description (150-160 chars optimal) -->
 <meta name="description" content="Professional B2B procurement marketplace for companies and institutions. One trusted supplier. Guaranteed quality. Consolidated invoicing. Streamline your business procurement.">
@@ -38,7 +38,7 @@ The Sourssing platform has been **comprehensively optimized** following Google's
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
 
 <!-- Canonical URL -->
-<link rel="canonical" href="https://sourssing.com">
+<link rel="canonical" href="https://lesorce.com">
 
 <!-- Viewport (Mobile-First) -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -55,7 +55,7 @@ Disallow: /buyer/
 Disallow: /vendor/
 Disallow: /api/
 
-Sitemap: https://sourssing.com/sitemap.xml
+Sitemap: https://lesorce.com/sitemap.xml
 ```
 
 **Location**: `/public/robots.txt`  
@@ -66,7 +66,7 @@ Sitemap: https://sourssing.com/sitemap.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sourssing.com/</loc>
+    <loc>https://lesorce.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
@@ -88,11 +88,11 @@ We've implemented comprehensive JSON-LD structured data:
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Sourssing",
-  "alternateName": "سورسنج",
+  "name": "lesorce",
+  "alternateName": "ليسورس",
   "description": "...",
-  "url": "https://sourssing.com",
-  "logo": "https://sourssing.com/static/logo.png",
+  "url": "https://lesorce.com",
+  "logo": "https://lesorce.com/static/logo.png",
   "foundingDate": "2025",
   "areaServed": { "@type": "Country", "name": "Egypt" },
   "contactPoint": { ... },
@@ -105,11 +105,11 @@ We've implemented comprehensive JSON-LD structured data:
 {
   "@context": "https://schema.org",
   "@type": "WebSite",
-  "name": "Sourssing",
-  "url": "https://sourssing.com",
+  "name": "lesorce",
+  "url": "https://lesorce.com",
   "potentialAction": {
     "@type": "SearchAction",
-    "target": "https://sourssing.com/search?q={search_term_string}"
+    "target": "https://lesorce.com/search?q={search_term_string}"
   }
 }
 ```
@@ -123,9 +123,9 @@ We've implemented comprehensive JSON-LD structured data:
 #### Hreflang Tags ✅
 ```html
 <!-- Alternate Language URLs -->
-<link rel="alternate" hreflang="en" href="https://sourssing.com?lang=en">
-<link rel="alternate" hreflang="ar" href="https://sourssing.com?lang=ar">
-<link rel="alternate" hreflang="x-default" href="https://sourssing.com">
+<link rel="alternate" hreflang="en" href="https://lesorce.com?lang=en">
+<link rel="alternate" hreflang="ar" href="https://lesorce.com?lang=ar">
+<link rel="alternate" hreflang="x-default" href="https://lesorce.com">
 
 <!-- HTML Lang & Dir Attributes -->
 <html lang="ar" dir="rtl">  <!-- Arabic -->
@@ -147,10 +147,10 @@ We've implemented comprehensive JSON-LD structured data:
 #### Facebook / Open Graph ✅
 ```html
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sourssing.com">
-<meta property="og:title" content="Sourssing | B2B Procurement Platform">
+<meta property="og:url" content="https://lesorce.com">
+<meta property="og:title" content="lesorce | B2B Procurement Platform">
 <meta property="og:description" content="...">
-<meta property="og:image" content="https://sourssing.com/static/og-image.jpg">
+<meta property="og:image" content="https://lesorce.com/static/og-image.jpg">
 <meta property="og:locale" content="en_US">
 <meta property="og:locale:alternate" content="ar_EG">
 ```
@@ -160,7 +160,7 @@ We've implemented comprehensive JSON-LD structured data:
 <meta property="twitter:card" content="summary_large_image">
 <meta property="twitter:title" content="...">
 <meta property="twitter:description" content="...">
-<meta property="twitter:image" content="https://sourssing.com/static/og-image.jpg">
+<meta property="twitter:image" content="https://lesorce.com/static/og-image.jpg">
 ```
 
 **Recommendation**: Create high-quality Open Graph image:
@@ -260,12 +260,12 @@ We've implemented comprehensive JSON-LD structured data:
 
 #### Clean, SEO-Friendly URLs
 ```
-https://sourssing.com/               # Homepage
-https://sourssing.com/?lang=ar       # Arabic
-https://sourssing.com/login          # Login
-https://sourssing.com/register       # Register
-https://sourssing.com/about          # About
-https://sourssing.com/contact        # Contact
+https://lesorce.com/               # Homepage
+https://lesorce.com/?lang=ar       # Arabic
+https://lesorce.com/login          # Login
+https://lesorce.com/register       # Register
+https://lesorce.com/about          # About
+https://lesorce.com/contact        # Contact
 ```
 
 **Status**: ✅ Clean, readable, keyword-rich URLs.
@@ -328,7 +328,7 @@ https://sourssing.com/contact        # Contact
 
 ### 1. **Create Visual Assets** (Priority: HIGH)
 - [ ] Create Open Graph image (1200x630px)
-  - Include Sourssing logo
+  - Include lesorce logo
   - Add tagline: "Streamline Your B2B Procurement"
   - Use brand colors (purple gradient)
   - Save as: `/public/static/og-image.jpg`
@@ -342,7 +342,7 @@ https://sourssing.com/contact        # Contact
   - Sizes: 16x16, 32x32, 48x48
 
 ### 2. **Google Business Profile** (Priority: HIGH)
-- [ ] Create Google Business Profile for Sourssing
+- [ ] Create Google Business Profile for lesorce
 - [ ] Add company information, logo, photos
 - [ ] Verify business address
 - [ ] Collect customer reviews
@@ -356,7 +356,7 @@ After deployment:
 
 ### 4. **Content Expansion** (Priority: MEDIUM)
 Add these SEO-friendly pages:
-- [ ] `/about` - About Sourssing page
+- [ ] `/about` - About lesorce page
 - [ ] `/contact` - Contact form
 - [ ] `/blog` - Company blog for content marketing
 - [ ] `/features` - Detailed features page
@@ -389,7 +389,7 @@ Add these SEO-friendly pages:
 
 ## 🏆 Competitive Advantages (SEO)
 
-### What Makes Sourssing SEO-Strong:
+### What Makes lesorce SEO-Strong:
 
 1. **Bilingual Platform**: English + Arabic with proper hreflang
 2. **Lightning-Fast Performance**: 98/100 performance score
@@ -405,7 +405,7 @@ Add these SEO-friendly pages:
 
 ### Short-Term (1-3 months)
 - ✅ Google indexing within 1-2 weeks
-- ✅ Ranking for branded searches ("Sourssing")
+- ✅ Ranking for branded searches ("lesorce")
 - ✅ Local visibility in Egypt
 
 ### Mid-Term (3-6 months)
@@ -498,6 +498,6 @@ Before production deployment, ensure:
 ---
 
 **Report Generated**: January 4, 2026  
-**Platform**: Sourssing B2B Procurement Platform  
+**Platform**: lesorce B2B Procurement Platform  
 **Version**: 1.0  
 **Status**: ✅ SEO-Optimized and Production Ready

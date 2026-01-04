@@ -1,6 +1,6 @@
-# 🎉 Sourssing B2B Platform - Final Project Status
+# 🎉 lesorce B2B Platform - Final Project Status
 
-**Project**: Sourssing - B2B Procurement Platform for Egyptian Enterprises  
+**Project**: lesorce - B2B Procurement Platform for Egyptian Enterprises  
 **Status**: MVP ~90% Complete ✅  
 **Date**: January 4, 2026  
 **Live Demo**: https://3000-imt8bnzh9fjq3e1fmww7u-8f57ffe2.sandbox.novita.ai
@@ -9,8 +9,8 @@
 
 ## 📊 Executive Summary
 
-**What is Sourssing?**  
-A managed B2B procurement marketplace where **Sourssing is the single merchant of record**. Buyers never see vendors, vendors never see buyers, and all transactions flow through Sourssing with:
+**What is lesorce?**  
+A managed B2B procurement marketplace where **lesorce is the single merchant of record**. Buyers never see vendors, vendors never see buyers, and all transactions flow through lesorce with:
 - 7% platform markup for revenue
 - Private vendor bidding
 - Quality assurance before delivery
@@ -61,7 +61,7 @@ A managed B2B procurement marketplace where **Sourssing is the single merchant o
 - [x] Orders API (5 endpoints)
 - [x] Payments API (5 endpoints)
 - [x] Order creation from accepted bids
-- [x] 7% Sourssing markup calculation
+- [x] 7% lesorce markup calculation
 - [x] Buyer payment confirmation
 - [x] Admin payment verification
 - [x] Escrow holding and release
@@ -126,7 +126,7 @@ A managed B2B procurement marketplace where **Sourssing is the single merchant o
 
 | Role | Email | Password | Access |
 |------|-------|----------|--------|
-| **Admin** | admin@sourssing.com | admin123 | Full platform control |
+| **Admin** | admin@lesorce.com | admin123 | Full platform control |
 | **Buyer** | buyer@company.com | admin123 | Browse catalog, create RFQs, upload files |
 | **Vendor** | vendor@supplier.com | admin123 | View RFQs, submit bids |
 
@@ -166,24 +166,24 @@ Example Transaction:
 - Markup (7%):     EGP 700
 - Buyer Total:     EGP 10,700
 
-Sourssing Profit:  EGP 700 per order
+lesorce Profit:  EGP 700 per order
 ```
 
 ### Escrow Workflow
 ```
-1. Buyer pays Sourssing → EGP 10,700 in escrow
+1. Buyer pays lesorce → EGP 10,700 in escrow
 2. Admin verifies payment received
 3. Goods arrive at warehouse
 4. QA inspection passes
 5. Goods shipped to buyer
 6. Admin releases payment to vendor → EGP 10,000
-7. Sourssing retains markup → EGP 700
+7. lesorce retains markup → EGP 700
 ```
 
 ### GMV Tracking
 - **GMV** (Gross Merchandise Value) = Total buyer payments
 - **COGS** (Cost of Goods Sold) = Total vendor payments
-- **Sourssing Revenue** = GMV - COGS = 7% of all transactions
+- **lesorce Revenue** = GMV - COGS = 7% of all transactions
 - Real-time tracking in Admin Escrow Dashboard
 
 ---
@@ -321,7 +321,7 @@ pm2 start ecosystem.config.cjs
 curl http://localhost:3000
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 ```
 
 ### Development Commands
@@ -331,8 +331,8 @@ npm run build             # Build for production
 npm run db:migrate:local  # Apply migrations
 npm run db:reset          # Reset local database
 npm run clean-port        # Kill port 3000
-pm2 logs sourssing        # View logs
-pm2 restart sourssing     # Restart service
+pm2 logs lesorce        # View logs
+pm2 restart lesorce     # Restart service
 ```
 
 ---
@@ -478,19 +478,19 @@ webapp/
 **Deployment Steps:**
 ```bash
 # 1. Create production D1 database
-wrangler d1 create sourssing-production
+wrangler d1 create lesorce-production
 
 # 2. Apply migrations
-wrangler d1 migrations apply sourssing-production
+wrangler d1 migrations apply lesorce-production
 
 # 3. Build project
 npm run build
 
 # 4. Deploy to Cloudflare Pages
-wrangler pages deploy dist --project-name sourssing
+wrangler pages deploy dist --project-name lesorce
 
 # 5. Set environment variables
-wrangler pages secret put OPENAI_API_KEY --project-name sourssing
+wrangler pages secret put OPENAI_API_KEY --project-name lesorce
 ```
 
 ---
@@ -499,11 +499,11 @@ wrangler pages secret put OPENAI_API_KEY --project-name sourssing
 
 ### 1. Private Vendor Bidding
 - Vendors can't see other vendors' bids
-- Buyers only see Sourssing's consolidated quotation
+- Buyers only see lesorce's consolidated quotation
 - Admin reviews all bids and selects winner
 
 ### 2. Escrow Payment Protection
-- Buyers pay Sourssing (not vendors)
+- Buyers pay lesorce (not vendors)
 - Payment held until QA passes
 - Automatic release after delivery confirmation
 - Protects both buyers and vendors
@@ -567,16 +567,16 @@ wrangler pages secret put OPENAI_API_KEY --project-name sourssing
 
 ## 📞 Support & Contact
 
-**Project Owner**: Sourssing Team  
-**Technical Support**: support@sourssing.com  
-**Website**: https://sourssing.com (pending)  
+**Project Owner**: lesorce Team  
+**Technical Support**: support@lesorce.com  
+**Website**: https://lesorce.com (pending)  
 **Demo Environment**: https://3000-imt8bnzh9fjq3e1fmww7u-8f57ffe2.sandbox.novita.ai
 
 ---
 
 ## 📄 License
 
-Proprietary - All Rights Reserved © 2026 Sourssing
+Proprietary - All Rights Reserved © 2026 lesorce
 
 ---
 

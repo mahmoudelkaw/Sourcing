@@ -15,7 +15,7 @@
 
 1. **POST /api/orders** - Create order from accepted bid (Admin only)
    - Converts accepted bid to order
-   - Calculates 7% Sourssing markup
+   - Calculates 7% lesorce markup
    - Creates order items from bid items
    - Updates RFQ status to 'converted_to_order'
 
@@ -71,7 +71,7 @@
    - Total vendor payments released
    - Amount currently in escrow
    - Pending verifications
-   - Sourssing revenue calculation
+   - lesorce revenue calculation
 
 ---
 
@@ -117,23 +117,23 @@
 
 ## 📊 Business Logic Implemented
 
-### Sourssing Markup Calculation (7%)
+### lesorce Markup Calculation (7%)
 ```
 Vendor Bid Amount: EGP 10,000
 Markup (7%):       EGP 700
 Buyer Total:       EGP 10,700
 
-Sourssing Profit:  EGP 700 (per order)
+lesorce Profit:  EGP 700 (per order)
 ```
 
 ### Escrow System
-- Buyer pays **Sourssing** (not vendor directly)
+- Buyer pays **lesorce** (not vendor directly)
 - Payment held in escrow until:
   1. Admin verifies payment received
   2. Order passes quality assurance
   3. Goods delivered successfully
 - Then payment released to vendor
-- **Sourssing keeps 7% markup**
+- **lesorce keeps 7% markup**
 
 ### Order Status Lifecycle
 ```
@@ -188,7 +188,7 @@ completed (payment released to vendor)
 1. **Buyer Payments** - Total received & count
 2. **Vendor Payments** - Total released & count
 3. **In Escrow** - Amount held
-4. **Sourssing Revenue** - Platform earnings
+4. **lesorce Revenue** - Platform earnings
 
 ---
 
@@ -253,7 +253,7 @@ completed (payment released to vendor)
 # Login as admin
 TOKEN=$(curl -s -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}' \
+  -d '{"email":"admin@lesorce.com","password":"admin123"}' \
   | jq -r '.token')
 ```
 
@@ -330,7 +330,7 @@ webapp/
 ## 💡 Key Features Highlights
 
 ### 1. Escrow Protection
-- Buyers pay Sourssing, not vendors
+- Buyers pay lesorce, not vendors
 - Payment held until delivery confirmed
 - Quality assurance before release
 - Protects both buyers and vendors
@@ -339,7 +339,7 @@ webapp/
 - Transparent pricing model
 - Automated calculation
 - Revenue tracking in admin panel
-- Example: Vendor $100 → Buyer $107 → Sourssing $7
+- Example: Vendor $100 → Buyer $107 → lesorce $7
 
 ### 3. Complete Audit Trail
 - All payment verifications logged
@@ -416,7 +416,7 @@ webapp/
 ### GMV Tracking Ready
 - Total buyer payments = GMV
 - Vendor payments = COGS
-- Sourssing revenue = GMV - COGS
+- lesorce revenue = GMV - COGS
 - All tracked in escrow dashboard
 
 ### Scalability
@@ -437,7 +437,7 @@ webapp/
 - ✅ Admin payment verification system
 - ✅ Escrow holding and release mechanism
 - ✅ Quality assurance before payment release
-- ✅ 7% Sourssing markup calculation
+- ✅ 7% lesorce markup calculation
 - ✅ Real-time escrow dashboard
 - ✅ Order tracking for buyers
 - ✅ Payment management for admins

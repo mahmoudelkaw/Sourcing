@@ -1,8 +1,8 @@
-# 🎯 Sourssing MVP - Final Status Report
+# 🎯 lesorce MVP - Final Status Report
 
 ## Executive Summary
 
-**Project**: Sourssing B2B Procurement Platform for Egyptian Enterprises  
+**Project**: lesorce B2B Procurement Platform for Egyptian Enterprises  
 **Status**: Phase 3 Complete - 70% MVP Ready  
 **Date**: January 4, 2026  
 **Version**: 0.3.0-MVP  
@@ -101,7 +101,7 @@
 
 ### Test Accounts
 ```
-Admin:  admin@sourssing.com / admin123
+Admin:  admin@lesorce.com / admin123
 Buyer:  buyer@company.com / admin123
 Vendor: vendor@supplier.com / admin123
 ```
@@ -295,19 +295,19 @@ webapp/
 ### Deployment Commands (Ready to Use)
 ```bash
 # Create production D1 database
-npx wrangler d1 create sourssing-production
+npx wrangler d1 create lesorce-production
 
 # Apply migrations to production
-npx wrangler d1 migrations apply sourssing-production
+npx wrangler d1 migrations apply lesorce-production
 
 # Create Cloudflare Pages project
-npx wrangler pages project create sourssing \
+npx wrangler pages project create lesorce \
   --production-branch main \
   --compatibility-date 2026-01-04
 
 # Deploy to production
 npm run build
-npx wrangler pages deploy dist --project-name sourssing
+npx wrangler pages deploy dist --project-name lesorce
 ```
 
 ---
@@ -416,7 +416,7 @@ npx wrangler pages deploy dist --project-name sourssing
 # Login
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 
 # Get products (authenticated)
 TOKEN="your-jwt-token"
@@ -539,6 +539,6 @@ curl http://localhost:3000/api/admin/stats \
 ---
 
 *Report Generated: January 4, 2026*  
-*Project: Sourssing MVP*  
+*Project: lesorce MVP*  
 *Version: 0.3.0*  
 *Status: Phase 3 Complete ✅*

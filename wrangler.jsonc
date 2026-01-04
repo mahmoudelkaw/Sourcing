@@ -1,6 +1,6 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "sourssing",
+  "name": "lesorce",
   "compatibility_date": "2026-01-04",
   "pages_build_output_dir": "./dist",
   "compatibility_flags": [
@@ -9,7 +9,7 @@
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "sourssing-production",
+      "database_name": "lesorce-production",
       "database_id": "local"
     }
   ]

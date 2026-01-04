@@ -1,4 +1,4 @@
-# 🚀 Sourssing Infrastructure Setup Guide
+# 🚀 lesorce Infrastructure Setup Guide
 
 **Status**: ⏳ Waiting for Cloudflare API Configuration
 
@@ -68,14 +68,14 @@ npx wrangler whoami
 cd /home/user/webapp
 
 # Create production database
-npx wrangler d1 create sourssing-production
+npx wrangler d1 create lesorce-production
 
 # You'll get output like:
-# ✅ Successfully created DB 'sourssing-production'
+# ✅ Successfully created DB 'lesorce-production'
 # 
 # [[d1_databases]]
 # binding = "DB"
-# database_name = "sourssing-production"
+# database_name = "lesorce-production"
 # database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
 ```
 
@@ -94,7 +94,7 @@ npx wrangler d1 create sourssing-production
 #### 4. Run Database Migrations
 ```bash
 # Apply migrations to production database
-npx wrangler d1 migrations apply sourssing-production
+npx wrangler d1 migrations apply lesorce-production
 
 # Confirm when prompted
 # You should see:
@@ -105,7 +105,7 @@ npx wrangler d1 migrations apply sourssing-production
 ```bash
 # Set JWT secret (use a strong random string)
 npx wrangler secret put JWT_SECRET
-# When prompted, enter: sourssing-prod-jwt-$(openssl rand -hex 32)
+# When prompted, enter: lesorce-prod-jwt-$(openssl rand -hex 32)
 
 # Set OpenAI API key (if you have one)
 npx wrangler secret put OPENAI_API_KEY
@@ -113,7 +113,7 @@ npx wrangler secret put OPENAI_API_KEY
 
 # Set app URL
 npx wrangler secret put APP_URL
-# When prompted, enter: https://sourssing.com
+# When prompted, enter: https://lesorce.com
 ```
 
 #### 6. Build & Deploy
@@ -122,23 +122,23 @@ npx wrangler secret put APP_URL
 npm run build
 
 # Deploy to Cloudflare Pages
-npx wrangler pages deploy dist --project-name sourssing --branch main
+npx wrangler pages deploy dist --project-name lesorce --branch main
 
 # You'll get output with your deployment URL:
 # ✨ Deployment complete! Take a peek over at
-#    https://xxxxxxxx.sourssing.pages.dev
+#    https://xxxxxxxx.lesorce.pages.dev
 ```
 
 #### 7. Verify Deployment
 ```bash
 # Test homepage
-curl https://sourssing.pages.dev
+curl https://lesorce.pages.dev
 
 # Test API
-curl https://sourssing.pages.dev/api/products
+curl https://lesorce.pages.dev/api/products
 
 # Test registration
-curl https://sourssing.pages.dev/register?role=buyer
+curl https://lesorce.pages.dev/register?role=buyer
 ```
 
 ---
@@ -188,7 +188,7 @@ After deployment, verify these items:
 **Solution**: Set OPENAI_API_KEY with `npx wrangler secret put OPENAI_API_KEY`
 
 ### Issue: "Database tables don't exist"
-**Solution**: Run migrations with `npx wrangler d1 migrations apply sourssing-production`
+**Solution**: Run migrations with `npx wrangler d1 migrations apply lesorce-production`
 
 ### Issue: "Deployment fails"
 **Solution**: Check wrangler logs and ensure all secrets are set

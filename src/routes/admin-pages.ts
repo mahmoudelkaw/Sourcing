@@ -717,7 +717,7 @@ adminPages.get('/payments', (c) => {
             <div class="text-xs opacity-75 mt-1">Held in escrow</div>
         </div>
         <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg shadow-lg p-6 text-white">
-            <div class="text-sm opacity-90 mb-1">Sourssing Revenue</div>
+            <div class="text-sm opacity-90 mb-1">Lesorce Revenue</div>
             <div class="text-3xl font-bold" id="revenue">EGP 0</div>
             <div class="text-xs opacity-75 mt-1">Platform earnings</div>
         </div>

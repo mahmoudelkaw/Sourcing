@@ -1,4 +1,4 @@
-# 🎉 Sourssing Project - Complete Handoff Documentation
+# 🎉 lesorce Project - Complete Handoff Documentation
 
 **Date**: January 4, 2026  
 **Status**: MVP 90% Complete - Production Ready  
@@ -9,7 +9,7 @@
 
 ## 📋 Quick Summary
 
-Sourssing is a complete B2B procurement platform with:
+lesorce is a complete B2B procurement platform with:
 - **37 API endpoints** (Full RESTful backend)
 - **14 portal pages** (Buyer, Vendor, Admin portals)
 - **24 database tables** (Complete schema with seeded data)
@@ -27,7 +27,7 @@ Sourssing is a complete B2B procurement platform with:
 
 ```
 Admin Portal:
-  Email: admin@sourssing.com
+  Email: admin@lesorce.com
   Password: admin123
   Access: /admin/dashboard
 
@@ -55,12 +55,12 @@ pm2 status
 git status
 
 # 3. View logs (if needed)
-pm2 logs sourssing --nostream
+pm2 logs lesorce --nostream
 
 # 4. Restart service (if needed)
 fuser -k 3000/tcp 2>/dev/null || true
 npm run build
-pm2 restart sourssing
+pm2 restart lesorce
 
 # 5. Test endpoints
 curl http://localhost:3000
@@ -182,7 +182,7 @@ webapp/
 
 ### ✅ Business Features
 - [x] 7% platform markup (automated calculation)
-- [x] Escrow payment system (buyer → Sourssing → vendor)
+- [x] Escrow payment system (buyer → lesorce → vendor)
 - [x] QA workflow (pass/fail before payment release)
 - [x] Private vendor bidding (anonymity)
 - [x] Order lifecycle (10 statuses)
@@ -221,16 +221,16 @@ webapp/
 pm2 status
 
 # View logs (non-blocking)
-pm2 logs sourssing --nostream
+pm2 logs lesorce --nostream
 
 # Restart service
 fuser -k 3000/tcp 2>/dev/null || true
 npm run build
-pm2 restart sourssing
+pm2 restart lesorce
 
 # Stop service
-pm2 stop sourssing
-pm2 delete sourssing
+pm2 stop lesorce
+pm2 delete lesorce
 ```
 
 ### Database Operations
@@ -245,7 +245,7 @@ npm run db:reset
 npm run db:console:local
 
 # Check tables
-wrangler d1 execute sourssing-production --local \
+wrangler d1 execute lesorce-production --local \
   --command="SELECT name FROM sqlite_master WHERE type='table'"
 ```
 
@@ -273,7 +273,7 @@ curl http://localhost:3000
 # Test login
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 
 # Test products API
 curl http://localhost:3000/api/products
@@ -334,12 +334,12 @@ curl http://localhost:3000/api/rfqs \
 
 10. Admin releases payment to vendor
     → Vendor receives: EGP 10,000
-    → Sourssing retains: EGP 700 (7% markup)
+    → lesorce retains: EGP 700 (7% markup)
     → Order status: completed
     → Payment status: released
 ```
 
-**Result**: Sourssing earns EGP 700 per order (7% of vendor bid)
+**Result**: lesorce earns EGP 700 per order (7% of vendor bid)
 
 ---
 
@@ -381,37 +381,37 @@ curl http://localhost:3000/api/rfqs \
 
 ```bash
 # 1. Create production D1 database
-wrangler d1 create sourssing-production
+wrangler d1 create lesorce-production
 
 # 2. Update wrangler.jsonc with database ID
 # (Copy the database_id from step 1)
 
 # 3. Apply migrations to production
-wrangler d1 migrations apply sourssing-production
+wrangler d1 migrations apply lesorce-production
 
 # 4. Seed production database (optional)
-wrangler d1 execute sourssing-production --file=./migrations/0002_seed_data.sql
+wrangler d1 execute lesorce-production --file=./migrations/0002_seed_data.sql
 
 # 5. Build project
 npm run build
 
 # 6. Create Cloudflare Pages project
-wrangler pages project create sourssing \
+wrangler pages project create lesorce \
   --production-branch main \
   --compatibility-date 2026-01-04
 
 # 7. Deploy to Cloudflare Pages
-wrangler pages deploy dist --project-name sourssing
+wrangler pages deploy dist --project-name lesorce
 
 # 8. Set environment variables
-wrangler pages secret put OPENAI_API_KEY --project-name sourssing
-wrangler pages secret put JWT_SECRET --project-name sourssing
+wrangler pages secret put OPENAI_API_KEY --project-name lesorce
+wrangler pages secret put JWT_SECRET --project-name lesorce
 
 # 9. Test production deployment
-curl https://sourssing.pages.dev
+curl https://lesorce.pages.dev
 
 # 10. Configure custom domain (optional)
-wrangler pages domain add yourdomain.com --project-name sourssing
+wrangler pages domain add yourdomain.com --project-name lesorce
 ```
 
 ---
@@ -563,7 +563,7 @@ MVP Completion:         90%
 
 ## 📄 License
 
-Proprietary - All Rights Reserved © 2026 Sourssing
+Proprietary - All Rights Reserved © 2026 lesorce
 
 ---
 

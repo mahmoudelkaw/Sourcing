@@ -1,4 +1,4 @@
-# Sourssing - B2B Procurement Platform
+# lesorce - B2B Procurement Platform
 
 **Professional enterprise-grade B2B marketplace for Egyptian companies**
 
@@ -8,13 +8,13 @@
 
 ## 🚀 Project Overview
 
-Sourssing is a managed B2B procurement marketplace designed specifically for Egyptian enterprises. Unlike traditional marketplaces, **Sourssing is the single merchant of record** - buyers never see vendors, vendors never see buyers, and all transactions flow through Sourssing.
+lesorce is a managed B2B procurement marketplace designed specifically for Egyptian enterprises. Unlike traditional marketplaces, **lesorce is the single merchant of record** - buyers never see vendors, vendors never see buyers, and all transactions flow through lesorce.
 
 ### Key Business Model
 
-- **One Supplier Model**: Sourssing acts as the sole supplier to all buyers
-- **Private Vendor Bidding**: Vendors submit bids privately; buyers only see Sourssing's consolidated quotation
-- **Quality Assurance**: All products inspected at Sourssing warehouse before delivery
+- **One Supplier Model**: lesorce acts as the sole supplier to all buyers
+- **Private Vendor Bidding**: Vendors submit bids privately; buyers only see lesorce's consolidated quotation
+- **Quality Assurance**: All products inspected at lesorce warehouse before delivery
 - **Consolidated Invoicing**: One invoice per buyer, simplifying accounting
 - **Smart Consolidation**: Multiple buyer requests for same SKU = one bulk PO to factory
 
@@ -178,13 +178,13 @@ npm run dev:sandbox
 # Start development server (Option 2: PM2 - Recommended)
 npm run clean-port
 pm2 start ecosystem.config.cjs
-pm2 logs sourssing --nostream
+pm2 logs lesorce --nostream
 
 # Test endpoints
 curl http://localhost:3000
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 ```
 
 ## 🌐 Live Demo
@@ -204,7 +204,7 @@ curl -X POST http://localhost:3000/api/auth/login \
 
 | Role | Email | Password | Access |
 |------|-------|----------|--------|
-| Admin | admin@sourssing.com | admin123 | Full platform control |
+| Admin | admin@lesorce.com | admin123 | Full platform control |
 | Buyer | buyer@company.com | admin123 | Browse, create RFQs |
 | Vendor | vendor@supplier.com | admin123 | View RFQs, submit bids |
 
@@ -315,7 +315,7 @@ pm2 start ecosystem.config.cjs
 
 # Check status
 pm2 status
-pm2 logs sourssing --nostream
+pm2 logs lesorce --nostream
 ```
 
 ### Production Deployment to Cloudflare Pages
@@ -328,7 +328,7 @@ npm run build
 npm run deploy
 
 # Or manually
-wrangler pages deploy dist --project-name sourssing
+wrangler pages deploy dist --project-name lesorce
 ```
 
 ## 📁 Project Structure
@@ -421,13 +421,13 @@ This is a proprietary project. Contributions are managed internally.
 
 ## 📄 License
 
-Proprietary - All Rights Reserved © 2026 Sourssing
+Proprietary - All Rights Reserved © 2026 lesorce
 
 ## 📞 Support
 
 For technical support or questions:
-- Email: support@sourssing.com
-- Website: https://sourssing.com
+- Email: support@lesorce.com
+- Website: https://lesorce.com
 
 ---
 

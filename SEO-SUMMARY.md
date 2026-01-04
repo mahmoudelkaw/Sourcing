@@ -1,4 +1,4 @@
-# ✅ Sourssing Platform - SEO Optimization Complete
+# ✅ lesorce Platform - SEO Optimization Complete
 
 **Date**: January 4, 2026  
 **Status**: ✅ **SEO-OPTIMIZED & PRODUCTION READY**  
@@ -6,11 +6,11 @@
 
 ---
 
-## 🎯 Quick Answer: Is Sourssing SEO-Friendly?
+## 🎯 Quick Answer: Is lesorce SEO-Friendly?
 
 ### ✅ **YES! Fully Optimized According to Google SEO Recommendations**
 
-The Sourssing platform has been comprehensively optimized following **all** Google SEO best practices:
+The lesorce platform has been comprehensively optimized following **all** Google SEO best practices:
 
 | Category | Status | Score |
 |----------|--------|-------|
@@ -96,22 +96,22 @@ Disallow: /buyer/
 Disallow: /vendor/
 Disallow: /api/
 
-Sitemap: https://sourssing.com/sitemap.xml
+Sitemap: https://lesorce.com/sitemap.xml
 ```
-**URL**: `https://sourssing.com/robots.txt`
+**URL**: `https://lesorce.com/robots.txt`
 
 ### sitemap.xml ✅
 ```xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://sourssing.com/</loc>
+    <loc>https://lesorce.com/</loc>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <!-- ... more URLs -->
 </urlset>
 ```
-**URL**: `https://sourssing.com/sitemap.xml`
+**URL**: `https://lesorce.com/sitemap.xml`
 
 ---
 
@@ -119,29 +119,29 @@ Sitemap: https://sourssing.com/sitemap.xml
 
 ### Title & Description
 ```html
-<title>Sourssing | B2B Procurement Platform for Egyptian Enterprises</title>
+<title>lesorce | B2B Procurement Platform for Egyptian Enterprises</title>
 <meta name="description" content="Professional B2B procurement marketplace for companies and institutions. One trusted supplier. Guaranteed quality. Consolidated invoicing. Streamline your business procurement.">
 ```
 
 ### SEO Meta Tags
 ```html
 <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
-<link rel="canonical" href="https://sourssing.com">
+<link rel="canonical" href="https://lesorce.com">
 ```
 
 ### Hreflang Tags
 ```html
-<link rel="alternate" hreflang="en" href="https://sourssing.com?lang=en">
-<link rel="alternate" hreflang="ar" href="https://sourssing.com?lang=ar">
-<link rel="alternate" hreflang="x-default" href="https://sourssing.com">
+<link rel="alternate" hreflang="en" href="https://lesorce.com?lang=en">
+<link rel="alternate" hreflang="ar" href="https://lesorce.com?lang=ar">
+<link rel="alternate" hreflang="x-default" href="https://lesorce.com">
 ```
 
 ### Open Graph
 ```html
 <meta property="og:type" content="website">
-<meta property="og:title" content="Sourssing | B2B Procurement Platform">
+<meta property="og:title" content="lesorce | B2B Procurement Platform">
 <meta property="og:description" content="...">
-<meta property="og:image" content="https://sourssing.com/static/og-image.jpg">
+<meta property="og:image" content="https://lesorce.com/static/og-image.jpg">
 <meta property="og:locale" content="en_US">
 ```
 
@@ -150,9 +150,9 @@ Sitemap: https://sourssing.com/sitemap.xml
 {
   "@context": "https://schema.org",
   "@type": "Organization",
-  "name": "Sourssing",
-  "alternateName": "سورسنج",
-  "url": "https://sourssing.com",
+  "name": "lesorce",
+  "alternateName": "ليسورس",
+  "url": "https://lesorce.com",
   "areaServed": "Egypt",
   "contactPoint": { ... }
 }
@@ -233,7 +233,7 @@ Sitemap: https://sourssing.com/sitemap.xml
 
 ### Short-Term (1-3 months)
 - Google indexing within 1-2 weeks
-- Ranking for branded searches ("Sourssing")
+- Ranking for branded searches ("lesorce")
 - Local visibility in Egypt
 
 ### Mid-Term (3-6 months)
@@ -284,11 +284,11 @@ For detailed SEO information, see:
 
 ## ✅ Final Verdict
 
-### Is Sourssing SEO-Friendly?
+### Is lesorce SEO-Friendly?
 
 **YES! ✅ 100% Compliant with Google SEO Best Practices**
 
-The Sourssing platform has been comprehensively optimized following **all** Google SEO recommendations:
+The lesorce platform has been comprehensively optimized following **all** Google SEO recommendations:
 
 - ✅ Technical SEO: Complete
 - ✅ On-Page SEO: Complete
@@ -306,15 +306,15 @@ The Sourssing platform has been comprehensively optimized following **all** Goog
 
 ## 🔗 Quick Links
 
-- **Homepage**: https://sourssing.com
-- **robots.txt**: https://sourssing.com/robots.txt
-- **sitemap.xml**: https://sourssing.com/sitemap.xml
-- **English**: https://sourssing.com?lang=en
-- **Arabic**: https://sourssing.com?lang=ar
+- **Homepage**: https://lesorce.com
+- **robots.txt**: https://lesorce.com/robots.txt
+- **sitemap.xml**: https://lesorce.com/sitemap.xml
+- **English**: https://lesorce.com?lang=en
+- **Arabic**: https://lesorce.com?lang=ar
 
 ---
 
 **Report Generated**: January 4, 2026  
-**Platform**: Sourssing B2B Procurement Platform  
+**Platform**: lesorce B2B Procurement Platform  
 **SEO Score**: 98/100 ⭐⭐⭐⭐⭐  
 **Status**: ✅ SEO-Optimized & Production Ready

@@ -20,7 +20,7 @@ export function buyerLayout(content: string, activeMenu: string = 'dashboard', l
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Buyer Portal - Sourssing</title>
+        <title>Buyer Portal - Lesorce</title>
         <link href="${fontLink}" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -51,7 +51,7 @@ export function buyerLayout(content: string, activeMenu: string = 'dashboard', l
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center gap-3">
                         <i class="fas fa-layer-group text-2xl text-purple-600"></i>
-                        <span class="text-xl font-bold text-gray-900">Sourssing</span>
+                        <span class="text-xl font-bold text-gray-900">Lesorce</span>
                         <span class="text-sm text-gray-500 ml-2">| Buyer Portal</span>
                     </div>
                     <div class="flex items-center gap-4">

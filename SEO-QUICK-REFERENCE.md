@@ -1,12 +1,12 @@
 # 🚀 SEO Quick Reference Card
 
-**Sourssing Platform - SEO Implementation Summary**
+**lesorce Platform - SEO Implementation Summary**
 
 ---
 
 ## ✅ Quick Answer
 
-### Is Sourssing SEO-Friendly?
+### Is lesorce SEO-Friendly?
 
 **YES! ⭐⭐⭐⭐⭐ 98/100 (EXCELLENT)**
 
@@ -41,11 +41,11 @@
 ## 🔗 SEO URLs
 
 ```
-Homepage:     https://sourssing.com
-English:      https://sourssing.com?lang=en
-Arabic:       https://sourssing.com?lang=ar
-robots.txt:   https://sourssing.com/robots.txt
-sitemap.xml:  https://sourssing.com/sitemap.xml
+Homepage:     https://lesorce.com
+English:      https://lesorce.com?lang=en
+Arabic:       https://lesorce.com?lang=ar
+robots.txt:   https://lesorce.com/robots.txt
+sitemap.xml:  https://lesorce.com/sitemap.xml
 ```
 
 ---
@@ -140,19 +140,19 @@ sitemap.xml:  https://sourssing.com/sitemap.xml
 
 ```bash
 # Test robots.txt
-curl https://sourssing.com/robots.txt
+curl https://lesorce.com/robots.txt
 
 # Test sitemap
-curl https://sourssing.com/sitemap.xml
+curl https://lesorce.com/sitemap.xml
 
 # Test English version
-curl https://sourssing.com?lang=en
+curl https://lesorce.com?lang=en
 
 # Test Arabic version
-curl https://sourssing.com?lang=ar
+curl https://lesorce.com?lang=ar
 
 # Test meta tags
-curl -s https://sourssing.com | grep -E "(title|description|og:|twitter:)"
+curl -s https://lesorce.com | grep -E "(title|description|og:|twitter:)"
 ```
 
 ---

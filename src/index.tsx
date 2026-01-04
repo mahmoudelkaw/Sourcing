@@ -26,7 +26,7 @@ app.use('/static/*', serveStatic({ root: './public' }))
 
 // SEO files (robots.txt and sitemap.xml) - serve from root
 app.get('/robots.txt', (c) => {
-  return c.text(`# Sourssing B2B Platform - Robots.txt
+  return c.text(`# Lesorce B2B Platform - Robots.txt
 # Allow all search engines
 
 User-agent: *
@@ -42,7 +42,7 @@ Sitemap: ${c.env.APP_URL || 'https://sourssing.com'}/sitemap.xml
 })
 
 app.get('/sitemap.xml', (c) => {
-  const baseUrl = c.env.APP_URL || 'https://sourssing.com'
+  const baseUrl = c.env.APP_URL || 'https://lesorce.com'
   return c.text(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
@@ -135,11 +135,11 @@ app.get('/', (c) => {
   const dir = isArabic ? 'rtl' : 'ltr'
   
   const content = isArabic ? {
-    title: 'سورسنج | منصة الشراء B2B للشركات في مصر',
+    title: 'ليسورس | منصة الشراء B2B للشركات في مصر',
     description: 'منصة شراء احترافية للشركات والمؤسسات. مورد واحد موثوق. جودة مضمونة. فواتير موحدة. نبسط عمليات الشراء للأعمال.',
     hero_title: 'بسّط عمليات الشراء للشركات',
     hero_subtitle: 'مورد واحد. جودة مضمونة. فواتير موحدة.',
-    hero_desc: 'سورسنج هي منصة الشراء B2B الرائدة في مصر. نوفر لك مورد واحد موثوق لكل احتياجات شركتك مع ضمان الجودة والتسعير التنافسي.',
+    hero_desc: 'ليسورس هي منصة الشراء B2B الرائدة في مصر. نوفر لك مورد واحد موثوق لكل احتياجات شركتك مع ضمان الجودة والتسعير التنافسي.',
     cta_buyer: 'سجّل كمشتري',
     cta_vendor: 'سجّل كمورد',
     feature1_title: 'مورد واحد موثوق',
@@ -156,15 +156,15 @@ app.get('/', (c) => {
     how_step3: '3. احصل على عرض سعر موحد منا',
     how_step4: '4. ادفع بأمان وتتبع طلبك',
     how_step5: '5. استلم منتجات مفحوصة الجودة',
-    footer_about: 'عن سورسنج',
+    footer_about: 'عن ليسورس',
     footer_contact: 'اتصل بنا',
-    footer_rights: '© 2026 سورسنج. جميع الحقوق محفوظة.',
+    footer_rights: '© 2026 ليسورس. جميع الحقوق محفوظة.',
   } : {
-    title: 'Sourssing | B2B Procurement Platform for Egyptian Enterprises',
+    title: 'Lesorce | B2B Procurement Platform for Egyptian Enterprises',
     description: 'Professional B2B procurement marketplace for companies and institutions. One trusted supplier. Guaranteed quality. Consolidated invoicing. Streamline your business procurement.',
     hero_title: 'Streamline Your B2B Procurement',
     hero_subtitle: 'One supplier. Guaranteed quality. Consolidated invoicing.',
-    hero_desc: 'Sourssing is Egypt\'s leading B2B procurement platform. We provide one trusted supplier for all your company needs with quality assurance and competitive pricing.',
+    hero_desc: 'Lesorce is Egypt\'s leading B2B procurement platform. We provide one trusted supplier for all your company needs with quality assurance and competitive pricing.',
     cta_buyer: 'Register as Buyer',
     cta_vendor: 'Register as Vendor',
     feature1_title: 'One Trusted Supplier',
@@ -181,9 +181,9 @@ app.get('/', (c) => {
     how_step3: '3. Receive consolidated quotation from us',
     how_step4: '4. Pay securely and track your order',
     how_step5: '5. Receive quality-inspected products',
-    footer_about: 'About Sourssing',
+    footer_about: 'About Lesorce',
     footer_contact: 'Contact Us',
-    footer_rights: '© 2026 Sourssing. All rights reserved.',
+    footer_rights: '© 2026 Lesorce. All rights reserved.',
   }
   
   return c.html(`
@@ -197,7 +197,7 @@ app.get('/', (c) => {
         <title>${content.title}</title>
         <meta name="description" content="${content.description}">
         <meta name="keywords" content="${isArabic ? 'شراء, B2B, مصر, موردين, شركات, مشتريات, إدارة المشتريات, التوريد' : 'procurement, B2B, Egypt, suppliers, enterprise, purchasing, supply chain, vendor management'}">
-        <meta name="author" content="Sourssing">
+        <meta name="author" content="Lesorce">
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
         <link rel="canonical" href="${c.env.APP_URL || 'https://sourssing.com'}${isArabic ? '?lang=ar' : ''}">
         
@@ -226,8 +226,8 @@ app.get('/', (c) => {
         {
           "@context": "https://schema.org",
           "@type": "Organization",
-          "name": "Sourssing",
-          "alternateName": "سورسنج",
+          "name": "Lesorce",
+          "alternateName": "ليسورس",
           "description": "${content.description}",
           "url": "${c.env.APP_URL || 'https://sourssing.com'}",
           "logo": "${c.env.APP_URL}/static/logo.png",
@@ -262,7 +262,7 @@ app.get('/', (c) => {
         {
           "@context": "https://schema.org",
           "@type": "WebSite",
-          "name": "Sourssing",
+          "name": "Lesorce",
           "url": "${c.env.APP_URL || 'https://sourssing.com'}",
           "potentialAction": {
             "@type": "SearchAction",
@@ -312,7 +312,7 @@ app.get('/', (c) => {
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
                         <i class="fas fa-layer-group text-3xl text-purple-600 ${dir === 'rtl' ? 'ml-3' : 'mr-3'}"></i>
-                        <span class="text-2xl font-bold text-gray-900">Sourssing</span>
+                        <span class="text-2xl font-bold text-gray-900">Lesorce</span>
                     </div>
                     <div class="flex items-center gap-4">
                         <a href="?lang=${isArabic ? 'en' : 'ar'}" class="text-gray-600 hover:text-purple-600">
@@ -436,7 +436,7 @@ app.get('/', (c) => {
             <div class="max-w-7xl mx-auto text-center">
                 <div class="mb-8">
                     <i class="fas fa-layer-group text-4xl text-purple-400 mb-4"></i>
-                    <p class="text-2xl font-bold">Sourssing</p>
+                    <p class="text-2xl font-bold">Lesorce</p>
                 </div>
                 <div class="flex justify-center gap-8 mb-8">
                     <a href="/about" class="hover:text-purple-400 transition">${content.footer_about}</a>
@@ -466,7 +466,7 @@ app.get('/login', (c) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>${isArabic ? 'تسجيل الدخول - سورسنج' : 'Login - Sourssing'}</title>
+        <title>${isArabic ? 'تسجيل الدخول - ليسورس' : 'Login - Lesorce'}</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Cairo:wght@300;400;600;700&display=swap" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -564,7 +564,7 @@ app.get('/register', (c) => {
     <!DOCTYPE html>
     <html>
     <head>
-        <title>Register - Sourssing</title>
+        <title>Register - Lesorce</title>
         <script src="https://cdn.tailwindcss.com"></script>
     </head>
     <body class="bg-gray-100">
@@ -588,7 +588,7 @@ app.get('/buyer/dashboard', (c) => {
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Buyer Dashboard - Sourssing</title>
+        <title>Buyer Dashboard - Lesorce</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -607,7 +607,7 @@ app.get('/buyer/dashboard', (c) => {
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center gap-3">
                         <i class="fas fa-layer-group text-2xl text-purple-600"></i>
-                        <span class="text-xl font-bold text-gray-900">Sourssing</span>
+                        <span class="text-xl font-bold text-gray-900">Lesorce</span>
                         <span class="text-sm text-gray-500 ml-2">| Buyer Portal</span>
                     </div>
                     <div class="flex items-center gap-4">

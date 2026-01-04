@@ -1,4 +1,4 @@
--- Sourssing B2B Marketplace - Complete Database Schema
+-- Lesorce B2B Marketplace - Complete Database Schema
 -- Phase 1: Core Tables
 
 -- ============================================

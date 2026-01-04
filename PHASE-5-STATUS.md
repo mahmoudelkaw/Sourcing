@@ -175,7 +175,7 @@ All layouts (`buyer-layout.ts`, `vendor-layout.ts`, `admin-layout.ts`) now suppo
 - [x] RFQ creation and management
 - [x] Private vendor bidding system
 - [x] Order lifecycle management
-- [x] Escrow payment system (7% Sourssing markup)
+- [x] Escrow payment system (7% lesorce markup)
 - [x] QA inspection workflow
 - [x] File upload & AI-powered OCR
 - [x] Arabic translations & RTL support
@@ -275,9 +275,9 @@ All layouts (`buyer-layout.ts`, `vendor-layout.ts`, `admin-layout.ts`) now suppo
 7. ✅ **Escrow Workflow**
    - Buyer pays → Admin verifies
    - Money held in escrow
-   - QA inspection at Sourssing warehouse
+   - QA inspection at lesorce warehouse
    - Payment released to vendor after QA pass
-   - Sourssing retains 7% markup
+   - lesorce retains 7% markup
 
 ---
 
@@ -286,7 +286,7 @@ All layouts (`buyer-layout.ts`, `vendor-layout.ts`, `admin-layout.ts`) now suppo
 ### Test Accounts
 | Role | Email | Password | Capabilities |
 |------|-------|----------|--------------|
-| **Admin** | admin@sourssing.com | admin123 | Full platform control |
+| **Admin** | admin@lesorce.com | admin123 | Full platform control |
 | **Buyer** | buyer@company.com | admin123 | Browse, create RFQs, orders |
 | **Vendor** | vendor@supplier.com | admin123 | View RFQs, submit bids |
 
@@ -304,7 +304,7 @@ All layouts (`buyer-layout.ts`, `vendor-layout.ts`, `admin-layout.ts`) now suppo
    - Submit bid
 
 3. **Admin Accepts Bid**
-   - Login: `admin@sourssing.com` / `admin123`
+   - Login: `admin@lesorce.com` / `admin123`
    - Go to "RFQs" → View RFQ
    - Review bids → Click "Accept" on best bid
    - Order created automatically
@@ -315,7 +315,7 @@ All layouts (`buyer-layout.ts`, `vendor-layout.ts`, `admin-layout.ts`) now suppo
    - Click "Confirm Payment" → Enter payment reference
 
 5. **Admin Processes Order**
-   - Login: `admin@sourssing.com` / `admin123`
+   - Login: `admin@lesorce.com` / `admin123`
    - Go to "Payments" → Verify payment
    - Go to "Orders" → Update QA status
    - Release payment to vendor
@@ -448,7 +448,7 @@ curl -s http://localhost:3000/buyer/catalog?lang=ar | grep 'html lang'
 
 ### 🎉 Ready for Production!
 
-The Sourssing MVP is now **95% complete** with comprehensive bilingual support, AI-powered OCR, and all core features working. The platform is ready for production deployment to Cloudflare Pages.
+The lesorce MVP is now **95% complete** with comprehensive bilingual support, AI-powered OCR, and all core features working. The platform is ready for production deployment to Cloudflare Pages.
 
 ---
 

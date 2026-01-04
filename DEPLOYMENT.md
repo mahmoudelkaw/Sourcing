@@ -1,6 +1,6 @@
-# Sourssing - Deployment Guide
+# lesorce - Deployment Guide
 
-This guide explains how to deploy Sourssing to production on Cloudflare Pages.
+This guide explains how to deploy lesorce to production on Cloudflare Pages.
 
 ## 📋 Prerequisites
 
@@ -25,7 +25,7 @@ export CLOUDFLARE_API_TOKEN=your-api-token-here
 
 ```bash
 # Create D1 database
-wrangler d1 create sourssing-production
+wrangler d1 create lesorce-production
 
 # Copy the database_id from output and update wrangler.jsonc
 ```
@@ -36,7 +36,7 @@ Update `wrangler.jsonc`:
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "sourssing-production",
+      "database_name": "lesorce-production",
       "database_id": "your-actual-database-id-here"  // Replace this!
     }
   ]
@@ -50,7 +50,7 @@ Update `wrangler.jsonc`:
 npm run db:migrate:prod
 
 # Or manually
-wrangler d1 migrations apply sourssing-production
+wrangler d1 migrations apply lesorce-production
 ```
 
 ### Step 4: Deploy to Cloudflare Pages
@@ -61,7 +61,7 @@ npm run deploy
 
 # Or step-by-step
 npm run build
-wrangler pages deploy dist --project-name sourssing
+wrangler pages deploy dist --project-name lesorce
 ```
 
 ## 🔐 Environment Variables (Production)
@@ -70,25 +70,25 @@ Set these secrets in Cloudflare Pages dashboard or via CLI:
 
 ```bash
 # Set JWT secret
-wrangler pages secret put JWT_SECRET --project-name sourssing
+wrangler pages secret put JWT_SECRET --project-name lesorce
 # Enter: your-super-secret-production-jwt-key-min-32-chars
 
 # Set JWT expiry
-wrangler pages secret put JWT_EXPIRY --project-name sourssing
+wrangler pages secret put JWT_EXPIRY --project-name lesorce
 # Enter: 7d
 
 # Set OpenAI API key (for OCR - when implemented)
-wrangler pages secret put OPENAI_API_KEY --project-name sourssing
+wrangler pages secret put OPENAI_API_KEY --project-name lesorce
 # Enter: sk-your-openai-api-key
 
 # Set app configuration
-wrangler pages secret put APP_NAME --project-name sourssing
-# Enter: Sourssing
+wrangler pages secret put APP_NAME --project-name lesorce
+# Enter: lesorce
 
-wrangler pages secret put APP_URL --project-name sourssing
-# Enter: https://sourssing.pages.dev
+wrangler pages secret put APP_URL --project-name lesorce
+# Enter: https://lesorce.pages.dev
 
-wrangler pages secret put MARKUP_PERCENTAGE --project-name sourssing
+wrangler pages secret put MARKUP_PERCENTAGE --project-name lesorce
 # Enter: 7.0
 ```
 
@@ -96,13 +96,13 @@ wrangler pages secret put MARKUP_PERCENTAGE --project-name sourssing
 
 ### Via Cloudflare Dashboard
 1. Go to Cloudflare Pages → Your Project → Custom Domains
-2. Add your domain (e.g., sourssing.com)
+2. Add your domain (e.g., lesorce.com)
 3. Follow DNS setup instructions
 4. Wait for SSL certificate provisioning (~15 minutes)
 
 ### Via CLI
 ```bash
-wrangler pages domain add sourssing.com --project-name sourssing
+wrangler pages domain add lesorce.com --project-name lesorce
 ```
 
 ## 🗄️ Database Management
@@ -113,19 +113,19 @@ wrangler pages domain add sourssing.com --project-name sourssing
 wrangler d1 list
 
 # Query production database
-wrangler d1 execute sourssing-production --command="SELECT * FROM users"
+wrangler d1 execute lesorce-production --command="SELECT * FROM users"
 
 # Interactive SQL console
-wrangler d1 execute sourssing-production
+wrangler d1 execute lesorce-production
 ```
 
 ### Backup Production Database
 ```bash
 # Export database
-wrangler d1 export sourssing-production --output=backup.sql
+wrangler d1 export lesorce-production --output=backup.sql
 
 # Import to local for testing
-wrangler d1 execute sourssing-production --local --file=backup.sql
+wrangler d1 execute lesorce-production --local --file=backup.sql
 ```
 
 ## 📊 Monitoring & Logs
@@ -135,16 +135,16 @@ wrangler d1 execute sourssing-production --local --file=backup.sql
 # Via dashboard: Pages → Your Project → Deployments → View Build Logs
 
 # Or use wrangler
-wrangler pages deployments list --project-name sourssing
+wrangler pages deployments list --project-name lesorce
 ```
 
 ### View Runtime Logs
 ```bash
 # Real-time logs
-wrangler pages tail --project-name sourssing
+wrangler pages tail --project-name lesorce
 
 # Filter by status code
-wrangler pages tail --project-name sourssing --status=error
+wrangler pages tail --project-name lesorce --status=error
 ```
 
 ## 🔄 Continuous Deployment (GitHub Actions)
@@ -178,7 +178,7 @@ jobs:
         uses: cloudflare/wrangler-action@v3
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          command: pages deploy dist --project-name sourssing
+          command: pages deploy dist --project-name lesorce
 ```
 
 ## 🧪 Testing Production
@@ -186,14 +186,14 @@ jobs:
 ### Health Check Endpoints
 ```bash
 # Homepage
-curl https://sourssing.pages.dev
+curl https://lesorce.pages.dev
 
 # API health
-curl https://sourssing.pages.dev/api/auth/me \
+curl https://lesorce.pages.dev/api/auth/me \
   -H "Authorization: Bearer YOUR_TOKEN"
 
 # Arabic version
-curl https://sourssing.pages.dev?lang=ar
+curl https://lesorce.pages.dev?lang=ar
 ```
 
 ### Load Testing
@@ -202,7 +202,7 @@ curl https://sourssing.pages.dev?lang=ar
 npm install -g artillery
 
 # Run load test
-artillery quick --count 100 --num 10 https://sourssing.pages.dev
+artillery quick --count 100 --num 10 https://lesorce.pages.dev
 ```
 
 ## 🚨 Rollback
@@ -210,10 +210,10 @@ artillery quick --count 100 --num 10 https://sourssing.pages.dev
 ### Rollback to Previous Deployment
 ```bash
 # List deployments
-wrangler pages deployments list --project-name sourssing
+wrangler pages deployments list --project-name lesorce
 
 # Rollback to specific deployment
-wrangler pages deployment rollback <deployment-id> --project-name sourssing
+wrangler pages deployment rollback <deployment-id> --project-name lesorce
 ```
 
 ### Emergency Rollback via Dashboard
@@ -274,14 +274,14 @@ wrangler pages project list
 ### Database Connection Issues
 ```bash
 # Test D1 connection
-wrangler d1 execute sourssing-production --command="SELECT 1"
+wrangler d1 execute lesorce-production --command="SELECT 1"
 
 # Check binding in wrangler.jsonc
 cat wrangler.jsonc | grep -A 5 "d1_databases"
 ```
 
 ### 500 Errors in Production
-1. Check logs: `wrangler pages tail --project-name sourssing`
+1. Check logs: `wrangler pages tail --project-name lesorce`
 2. Verify environment variables are set
 3. Check database migrations applied
 4. Review recent code changes

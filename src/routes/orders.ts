@@ -71,7 +71,7 @@ orders.post('/', requireRole('admin'), async (c) => {
     // Generate order number
     const orderNumber = generateReferenceNumber('ORD')
     
-    // Calculate Sourssing markup (7%)
+    // Calculate Lesorce markup (7%)
     const vendorAmount = bid.total_amount
     const markupPercent = 0.07
     const markupAmount = vendorAmount * markupPercent

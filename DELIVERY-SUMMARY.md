@@ -1,4 +1,4 @@
-# 🎉 Sourssing MVP - Delivery Summary
+# 🎉 lesorce MVP - Delivery Summary
 
 **Date**: January 4, 2026  
 **Status**: ✅ **MVP DEPLOYED & RUNNING**  
@@ -67,7 +67,7 @@ You now have a **fully functional, deploy-ready B2B procurement platform** with:
 
 | Role   | Email                    | Password  | Status  |
 |--------|--------------------------|-----------|---------|
-| Admin  | admin@sourssing.com      | admin123  | ✅ Active |
+| Admin  | admin@lesorce.com      | admin123  | ✅ Active |
 | Buyer  | buyer@company.com        | admin123  | ✅ Active |
 | Vendor | vendor@supplier.com      | admin123  | ✅ Active |
 
@@ -77,7 +77,7 @@ You now have a **fully functional, deploy-ready B2B procurement platform** with:
 ```bash
 curl -X POST https://3000-imt8bnzh9fjq3e1fmww7u-8f57ffe2.sandbox.novita.ai/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 ```
 
 **Response:**
@@ -90,7 +90,7 @@ curl -X POST https://3000-imt8bnzh9fjq3e1fmww7u-8f57ffe2.sandbox.novita.ai/api/a
     "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
     "user": {
       "id": 1,
-      "email": "admin@sourssing.com",
+      "email": "admin@lesorce.com",
       "role": "admin",
       "status": "active"
     }
@@ -330,7 +330,7 @@ webapp/
 ### What You Can Do Right Now
 
 1. ✅ **Visit the live site** - See the beautiful bilingual landing page
-2. ✅ **Test login** - Use admin@sourssing.com / admin123
+2. ✅ **Test login** - Use admin@lesorce.com / admin123
 3. ✅ **Call the API** - Authentication endpoints working
 4. ✅ **View the database** - 50+ products, all tables ready
 5. ✅ **Deploy to production** - Follow DEPLOYMENT.md guide
@@ -377,4 +377,4 @@ The MVP is **deployed, tested, and working**. You can now:
 - Start building the remaining portals
 - Deploy to production with one command
 
-**Welcome to Sourssing MVP v0.1.0** 🚀
+**Welcome to lesorce MVP v0.1.0** 🚀

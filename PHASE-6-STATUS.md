@@ -137,7 +137,7 @@ Success Rate: 76%
 
 **Solution**: Added JWT configuration to `.dev.vars`
 ```bash
-JWT_SECRET=sourssing-super-secret-jwt-key-change-in-production-2026
+JWT_SECRET=lesorce-super-secret-jwt-key-change-in-production-2026
 JWT_EXPIRY=7d
 ```
 
@@ -343,7 +343,7 @@ TOTAL:    14 pages ✓
 ### 5. **Complete Workflows**
 - ✅ RFQ creation → Bid submission → Order creation
 - ✅ Payment → Escrow → QA → Release
-- ✅ 7% Sourssing markup
+- ✅ 7% lesorce markup
 - ✅ Private vendor bidding
 - ✅ Admin approval workflows
 
@@ -365,7 +365,7 @@ cd /home/user/webapp
 # 1. Test login
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 
 # 2. Test products
 curl http://localhost:3000/api/products?page=1&limit=5
@@ -382,7 +382,7 @@ curl http://localhost:3000/admin/dashboard
 ### Test Accounts
 | Role | Email | Password |
 |------|-------|----------|
-| Admin | admin@sourssing.com | admin123 |
+| Admin | admin@lesorce.com | admin123 |
 | Buyer | buyer@company.com | admin123 |
 | Vendor | vendor@supplier.com | admin123 |
 
@@ -453,7 +453,7 @@ curl http://localhost:3000/admin/dashboard
 
 ## 🎯 Next Steps
 
-The Sourssing MVP is now **100% complete** and production-ready!
+The lesorce MVP is now **100% complete** and production-ready!
 
 ### Recommended Next Actions
 
@@ -464,17 +464,17 @@ The Sourssing MVP is now **100% complete** and production-ready!
 
 # 2. Build and deploy
 npm run build
-npx wrangler pages deploy dist --project-name sourssing
+npx wrangler pages deploy dist --project-name lesorce
 
 # 3. Configure production database
-npx wrangler d1 migrations apply sourssing-production
+npx wrangler d1 migrations apply lesorce-production
 
 # 4. Set production secrets
-npx wrangler pages secret put JWT_SECRET --project-name sourssing
-npx wrangler pages secret put OPENAI_API_KEY --project-name sourssing
+npx wrangler pages secret put JWT_SECRET --project-name lesorce
+npx wrangler pages secret put OPENAI_API_KEY --project-name lesorce
 
 # 5. Test production deployment
-curl https://sourssing.pages.dev/api/products
+curl https://lesorce.pages.dev/api/products
 ```
 
 #### **Option 2: Additional Testing** (1-2 hours)
@@ -526,7 +526,7 @@ curl https://sourssing.pages.dev/api/products
 
 ## 🎉 Congratulations!
 
-The Sourssing MVP is **100% complete**, fully tested, and production-ready!
+The lesorce MVP is **100% complete**, fully tested, and production-ready!
 
 **What's Next?**
 1. **Deploy to production** - Take it live!

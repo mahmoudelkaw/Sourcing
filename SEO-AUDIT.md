@@ -1,7 +1,7 @@
-# SEO Audit & Optimization Report - Sourssing MVP
+# SEO Audit & Optimization Report - lesorce MVP
 
 **Audit Date**: 2026-01-04  
-**Website**: Sourssing B2B Procurement Platform  
+**Website**: lesorce B2B Procurement Platform  
 **Languages**: English & Arabic (RTL)  
 **Platform**: Cloudflare Workers + Pages
 
@@ -93,9 +93,9 @@
 **Fix Required**:
 ```html
 <!-- Add to both English and Arabic pages -->
-<link rel="alternate" hreflang="en" href="https://sourssing.com/" />
-<link rel="alternate" hreflang="ar" href="https://sourssing.com/?lang=ar" />
-<link rel="alternate" hreflang="x-default" href="https://sourssing.com/" />
+<link rel="alternate" hreflang="en" href="https://lesorce.com/" />
+<link rel="alternate" hreflang="ar" href="https://lesorce.com/?lang=ar" />
+<link rel="alternate" hreflang="x-default" href="https://lesorce.com/" />
 ```
 
 **Priority**: HIGH ⚠️
@@ -139,7 +139,7 @@ Disallow: /buyer/
 Disallow: /vendor/
 Disallow: /admin/
 
-Sitemap: https://sourssing.com/sitemap.xml
+Sitemap: https://lesorce.com/sitemap.xml
 ```
 
 **Priority**: HIGH ⚠️
@@ -159,9 +159,9 @@ Sitemap: https://sourssing.com/sitemap.xml
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
-    <loc>https://sourssing.com/</loc>
-    <xhtml:link rel="alternate" hreflang="ar" href="https://sourssing.com/?lang=ar"/>
-    <xhtml:link rel="alternate" hreflang="en" href="https://sourssing.com/"/>
+    <loc>https://lesorce.com/</loc>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://lesorce.com/?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="en" href="https://lesorce.com/"/>
     <lastmod>2026-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
@@ -321,7 +321,7 @@ app.get('/sitemap.xml', (c) => {
 #### 5. Add Image Alt Tags
 Verify all images have descriptive alt attributes:
 ```html
-<img src="..." alt="Sourssing B2B procurement dashboard showing order management" />
+<img src="..." alt="lesorce B2B procurement dashboard showing order management" />
 ```
 
 ### Priority 3: Enhancement (LOW) - Nice to Have
@@ -345,7 +345,7 @@ Verify all images have descriptive alt attributes:
     "@type": "ListItem",
     "position": 1,
     "name": "Home",
-    "item": "https://sourssing.com"
+    "item": "https://lesorce.com"
   }]
 }
 ```
@@ -425,7 +425,7 @@ Verify all images have descriptive alt attributes:
 
 ### Current Status: **GOOD** ✓
 
-The Sourssing MVP has a **solid SEO foundation** with excellent performance and mobile optimization. However, it's missing some critical multilingual SEO elements.
+The lesorce MVP has a **solid SEO foundation** with excellent performance and mobile optimization. However, it's missing some critical multilingual SEO elements.
 
 ### Strengths ⭐
 - ✅ Excellent performance (98/100)

@@ -1,4 +1,4 @@
-# Sourssing MVP - Testing & Development Guide
+# lesorce MVP - Testing & Development Guide
 
 ## Table of Contents
 1. [Quick Start Testing](#quick-start-testing)
@@ -23,7 +23,7 @@ npm run build
 pm2 start ecosystem.config.cjs
 
 # Check status
-pm2 logs sourssing --nostream | tail -10
+pm2 logs lesorce --nostream | tail -10
 ```
 
 ### Run All Tests
@@ -88,7 +88,7 @@ Comprehensive test coverage across all major endpoints:
 # Run only authentication tests
 curl -s -X POST "http://localhost:3000/api/auth/login" \
     -H "Content-Type: application/json" \
-    -d '{"email":"admin@sourssing.com","password":"admin123"}'
+    -d '{"email":"admin@lesorce.com","password":"admin123"}'
 
 # Test products endpoint
 curl -s "http://localhost:3000/api/products?page=1&limit=5"
@@ -104,7 +104,7 @@ curl -s "http://localhost:3000/?lang=ar" | grep 'lang="ar"'
 ### Test Accounts
 | Role | Email | Password | Permissions |
 |------|-------|----------|-------------|
-| **Admin** | admin@sourssing.com | admin123 | Full platform control |
+| **Admin** | admin@lesorce.com | admin123 | Full platform control |
 | **Buyer** | buyer@company.com | admin123 | Browse, create RFQs, orders |
 | **Vendor** | vendor@supplier.com | admin123 | View RFQs, submit bids |
 
@@ -197,7 +197,7 @@ curl http://localhost:3000/api/bids/my-bids \
 # Step 1: Login as admin
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 
 ADMIN_TOKEN="<token_from_response>"
 
@@ -352,11 +352,11 @@ curl -X POST http://localhost:3000/api/upload/ocr \
 cat .dev.vars
 
 # Should contain:
-# JWT_SECRET=sourssing-super-secret-jwt-key-change-in-production-2026
+# JWT_SECRET=lesorce-super-secret-jwt-key-change-in-production-2026
 # JWT_EXPIRY=7d
 
 # If missing, add them and restart
-pm2 restart sourssing --update-env
+pm2 restart lesorce --update-env
 ```
 
 ### Issue 2: "Unauthorized - Invalid or expired token"
@@ -423,7 +423,7 @@ npm run build
 pm2 start ecosystem.config.cjs
 
 # Watch logs
-pm2 logs sourssing --lines 50
+pm2 logs lesorce --lines 50
 ```
 
 ### 2. Make Changes
@@ -435,7 +435,7 @@ vim src/routes/auth.ts
 npm run build
 
 # Restart server (with updated environment)
-pm2 restart sourssing --update-env
+pm2 restart lesorce --update-env
 
 # Test changes
 curl http://localhost:3000/api/auth/login ...
@@ -471,7 +471,7 @@ git push origin main
 npm run build
 
 # Deploy to Cloudflare Pages
-npx wrangler pages deploy dist --project-name sourssing
+npx wrangler pages deploy dist --project-name lesorce
 ```
 
 ---
@@ -536,13 +536,13 @@ ab -n 1000 -c 50 http://localhost:3000/api/products?limit=10
 ### Enable Verbose Logging
 ```bash
 # Check PM2 logs
-pm2 logs sourssing
+pm2 logs lesorce
 
 # Check error logs only
-pm2 logs sourssing --err
+pm2 logs lesorce --err
 
 # Watch logs in real-time
-pm2 logs sourssing --lines 100
+pm2 logs lesorce --lines 100
 ```
 
 ### Test Database Queries
@@ -583,7 +583,7 @@ After completing manual testing:
 
 - **GitHub**: [Your repo URL]
 - **Documentation**: `/home/user/webapp/*.md`
-- **Logs**: `pm2 logs sourssing`
+- **Logs**: `pm2 logs lesorce`
 - **Database**: `npm run db:console:local`
 
 **Happy Testing! 🚀**

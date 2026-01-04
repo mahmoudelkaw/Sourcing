@@ -1,4 +1,4 @@
-// TypeScript Type Definitions for Sourssing Platform
+// TypeScript Type Definitions for Lesorce Platform
 
 export type Bindings = {
   DB: D1Database;

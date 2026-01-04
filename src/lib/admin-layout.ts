@@ -19,7 +19,7 @@ export function getAdminLayout(content: string, title: string = 'Admin Portal', 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>${title} - Sourssing Admin</title>
+    <title>${title} - Lesorce Admin</title>
     <link href="${fontLink}" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
@@ -47,7 +47,7 @@ export function getAdminLayout(content: string, title: string = 'Admin Portal', 
                 <div class="flex items-center space-x-8">
                     <a href="/" class="flex items-center space-x-3">
                         <i class="fas fa-shield-alt text-2xl"></i>
-                        <span class="text-xl font-bold">Sourssing Admin</span>
+                        <span class="text-xl font-bold">Lesorce Admin</span>
                     </a>
                     <div class="hidden md:flex space-x-2">
                         <a href="/admin/dashboard" class="nav-link px-4 py-2 rounded-lg text-sm font-medium hover:bg-white hover:bg-opacity-20 transition-all">

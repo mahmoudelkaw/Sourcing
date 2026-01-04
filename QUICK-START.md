@@ -1,4 +1,4 @@
-# ⚡ Sourssing - Quick Start Guide
+# ⚡ lesorce - Quick Start Guide
 
 Get up and running in 5 minutes!
 
@@ -6,7 +6,7 @@ Get up and running in 5 minutes!
 
 ## 🎯 What Is This?
 
-**Sourssing** is a complete B2B procurement platform for Egyptian enterprises. This MVP includes:
+**lesorce** is a complete B2B procurement platform for Egyptian enterprises. This MVP includes:
 - ✅ Working authentication system
 - ✅ 24-table database with 50+ products
 - ✅ Bilingual UI (Arabic + English)
@@ -22,7 +22,7 @@ Get up and running in 5 minutes!
 👉 **https://3000-imt8bnzh9fjq3e1fmww7u-8f57ffe2.sandbox.novita.ai**
 
 ### Test Accounts:
-- **Admin**: admin@sourssing.com / admin123
+- **Admin**: admin@lesorce.com / admin123
 - **Buyer**: buyer@company.com / admin123
 - **Vendor**: vendor@supplier.com / admin123
 
@@ -72,7 +72,7 @@ curl http://localhost:3000
 # Test login API
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}'
+  -d '{"email":"admin@lesorce.com","password":"admin123"}'
 ```
 
 ---
@@ -111,28 +111,28 @@ npm run build
 pm2 start ecosystem.config.cjs
 
 # Stop
-pm2 stop sourssing
+pm2 stop lesorce
 
 # Restart
-pm2 restart sourssing
+pm2 restart lesorce
 
 # Logs
-pm2 logs sourssing --nostream
+pm2 logs lesorce --nostream
 ```
 
 ### Database Operations
 
 ```bash
 # View users
-npx wrangler d1 execute sourssing-production --local \
+npx wrangler d1 execute lesorce-production --local \
   --command="SELECT email, role, status FROM users"
 
 # View products (50+ items)
-npx wrangler d1 execute sourssing-production --local \
+npx wrangler d1 execute lesorce-production --local \
   --command="SELECT name, name_ar, base_price FROM products LIMIT 10"
 
 # Add new admin
-npx wrangler d1 execute sourssing-production --local \
+npx wrangler d1 execute lesorce-production --local \
   --command="INSERT INTO users (email, password_hash, role, status) VALUES ('you@company.com', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', 'admin', 'active')"
 ```
 
@@ -142,7 +142,7 @@ npx wrangler d1 execute sourssing-production --local \
 # Login (get token)
 curl -X POST http://localhost:3000/api/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"email":"admin@sourssing.com","password":"admin123"}' | jq
+  -d '{"email":"admin@lesorce.com","password":"admin123"}' | jq
 
 # Register new buyer
 curl -X POST http://localhost:3000/api/auth/register/buyer \
@@ -179,7 +179,7 @@ npm install -g wrangler
 wrangler login
 
 # 3. Create database
-wrangler d1 create sourssing-production
+wrangler d1 create lesorce-production
 # Copy database_id and update wrangler.jsonc
 
 # 4. Apply migrations
@@ -279,7 +279,7 @@ After exploring the MVP, you can:
 
 ## 💡 Tips
 
-- Use **admin@sourssing.com** to test admin features
+- Use **admin@lesorce.com** to test admin features
 - Password for all test accounts: `admin123`
 - Change `?lang=ar` to see Arabic version
 - Check `pm2 logs` if something breaks
@@ -291,7 +291,7 @@ After exploring the MVP, you can:
 
 1. Check `README.md` for detailed docs
 2. Read `DELIVERY-SUMMARY.md` for what's built
-3. Review error logs: `pm2 logs sourssing`
+3. Review error logs: `pm2 logs lesorce`
 4. Test database: `npm run db:console:local`
 
 ---

@@ -135,7 +135,7 @@ Complete administrative control panel:
 
 ### Test Accounts
 ```
-Admin:  admin@sourssing.com / admin123
+Admin:  admin@lesorce.com / admin123
 Buyer:  buyer@company.com / admin123
 Vendor: vendor@supplier.com / admin123
 ```
@@ -158,7 +158,7 @@ Vendor: vendor@supplier.com / admin123
 
 2. **Admin Flow**:
    ```
-   1. Login as admin@sourssing.com / admin123
+   1. Login as admin@lesorce.com / admin123
    2. View Dashboard → Monitor platform stats
    3. Go to "Users" → Manage user accounts
    4. Go to "RFQs" → Review bids and accept/reject

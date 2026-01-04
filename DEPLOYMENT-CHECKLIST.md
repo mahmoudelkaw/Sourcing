@@ -1,4 +1,4 @@
-# 🚀 Sourssing Production Deployment Checklist
+# 🚀 lesorce Production Deployment Checklist
 
 **Date**: January 4, 2026  
 **Status**: ⚠️ **NOT READY - Critical Issues Found**
@@ -13,7 +13,7 @@
 **Action Required**:
 ```bash
 # Create production D1 database
-npx wrangler d1 create sourssing-production
+npx wrangler d1 create lesorce-production
 
 # Update wrangler.jsonc with real database_id
 # Replace "local" with actual UUID from wrangler output
@@ -29,7 +29,7 @@ npx wrangler secret put JWT_SECRET --env production
 npx wrangler secret put OPENAI_API_KEY --env production
 
 # Recommended secrets
-npx wrangler secret put APP_URL --env production  # https://sourssing.com
+npx wrangler secret put APP_URL --env production  # https://lesorce.com
 ```
 
 ### 3. ⚠️ OpenAI API Key - WARNING
@@ -94,7 +94,7 @@ npx wrangler secret put APP_URL --env production  # https://sourssing.com
 cd /home/user/webapp
 
 # Create database
-npx wrangler d1 create sourssing-production
+npx wrangler d1 create lesorce-production
 
 # Copy the database_id from output
 # Update wrangler.jsonc:
@@ -104,14 +104,14 @@ npx wrangler d1 create sourssing-production
 ### Step 2: Run Database Migrations
 ```bash
 # Apply migrations to production database
-npx wrangler d1 migrations apply sourssing-production
+npx wrangler d1 migrations apply lesorce-production
 ```
 
 ### Step 3: Configure Production Secrets
 ```bash
 # CRITICAL: Set JWT secret (use strong random string)
 npx wrangler secret put JWT_SECRET
-# Enter: sourssing-prod-jwt-$(openssl rand -hex 32)
+# Enter: lesorce-prod-jwt-$(openssl rand -hex 32)
 
 # Set OpenAI API key (if using OCR)
 npx wrangler secret put OPENAI_API_KEY
@@ -119,7 +119,7 @@ npx wrangler secret put OPENAI_API_KEY
 
 # Optional: Set app URL
 npx wrangler secret put APP_URL
-# Enter: https://sourssing.com
+# Enter: https://lesorce.com
 ```
 
 ### Step 4: Build & Deploy
@@ -128,16 +128,16 @@ npx wrangler secret put APP_URL
 npm run build
 
 # Deploy to Cloudflare Pages
-npx wrangler pages deploy dist --project-name sourssing --branch main
+npx wrangler pages deploy dist --project-name lesorce --branch main
 ```
 
 ### Step 5: Post-Deployment Verification
 ```bash
 # Test deployment
-curl https://sourssing.pages.dev
+curl https://lesorce.pages.dev
 
 # Test API
-curl https://sourssing.pages.dev/api/products
+curl https://lesorce.pages.dev/api/products
 
 # Verify database connection
 # (login should work if JWT_SECRET is set)
@@ -170,11 +170,11 @@ curl https://sourssing.pages.dev/api/products
 
 ```bash
 # 1. Create D1 database
-npx wrangler d1 create sourssing-production
+npx wrangler d1 create lesorce-production
 # Copy database_id and update wrangler.jsonc
 
 # 2. Apply migrations
-npx wrangler d1 migrations apply sourssing-production
+npx wrangler d1 migrations apply lesorce-production
 
 # 3. Set secrets
 npx wrangler secret put JWT_SECRET
@@ -183,10 +183,10 @@ npx wrangler secret put APP_URL
 
 # 4. Build & Deploy
 npm run build
-npx wrangler pages deploy dist --project-name sourssing --branch main
+npx wrangler pages deploy dist --project-name lesorce --branch main
 
 # 5. Verify
-curl https://sourssing.pages.dev
+curl https://lesorce.pages.dev
 ```
 
 ---
