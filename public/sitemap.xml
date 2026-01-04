@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage (Bilingual) -->
+  <url>
+    <loc>https://sourssing.com/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sourssing.com/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://sourssing.com/?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://sourssing.com/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <!-- Login Page -->
+  <url>
+    <loc>https://sourssing.com/login</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://sourssing.com/login?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="https://sourssing.com/login?lang=ar"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <!-- Register Pages -->
+  <url>
+    <loc>https://sourssing.com/register?role=buyer</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://sourssing.com/register?role=vendor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <!-- About Page (Future) -->
+  <url>
+    <loc>https://sourssing.com/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Contact Page (Future) -->
+  <url>
+    <loc>https://sourssing.com/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>

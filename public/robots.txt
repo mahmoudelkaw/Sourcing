@@ -1,0 +1,12 @@
+# Sourssing B2B Platform - Robots.txt
+# Allow all search engines
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /buyer/
+Disallow: /vendor/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: https://sourssing.com/sitemap.xml

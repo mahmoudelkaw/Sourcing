@@ -23,6 +23,80 @@ app.use('/api/*', cors())
 // Serve static files
 app.use('/static/*', serveStatic({ root: './public' }))
 
+// SEO files (robots.txt and sitemap.xml) - serve from root
+app.get('/robots.txt', (c) => {
+  return c.text(`# Sourssing B2B Platform - Robots.txt
+# Allow all search engines
+
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /buyer/
+Disallow: /vendor/
+Disallow: /api/
+
+# Sitemap location
+Sitemap: ${c.env.APP_URL || 'https://sourssing.com'}/sitemap.xml
+`, 200, { 'Content-Type': 'text/plain' })
+})
+
+app.get('/sitemap.xml', (c) => {
+  const baseUrl = c.env.APP_URL || 'https://sourssing.com'
+  return c.text(`<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <!-- Homepage (Bilingual) -->
+  <url>
+    <loc>${baseUrl}/</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="${baseUrl}/?lang=ar"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="${baseUrl}/"/>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <!-- Login Page -->
+  <url>
+    <loc>${baseUrl}/login</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="${baseUrl}/login?lang=en"/>
+    <xhtml:link rel="alternate" hreflang="ar" href="${baseUrl}/login?lang=ar"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <!-- Register Pages -->
+  <url>
+    <loc>${baseUrl}/register?role=buyer</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <url>
+    <loc>${baseUrl}/register?role=vendor</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+    <lastmod>2026-01-04</lastmod>
+  </url>
+  
+  <!-- About Page (Future) -->
+  <url>
+    <loc>${baseUrl}/about</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  
+  <!-- Contact Page (Future) -->
+  <url>
+    <loc>${baseUrl}/contact</loc>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+</urlset>`, 200, { 'Content-Type': 'application/xml' })
+})
+
 // API Routes
 app.route('/api/auth', authRoutes)
 app.route('/api/products', productsRoutes)
@@ -120,9 +194,15 @@ app.get('/', (c) => {
         <!-- SEO Meta Tags -->
         <title>${content.title}</title>
         <meta name="description" content="${content.description}">
-        <meta name="keywords" content="${isArabic ? 'شراء, B2B, مصر, موردين, شركات, مشتريات' : 'procurement, B2B, Egypt, suppliers, enterprise, purchasing'}">
+        <meta name="keywords" content="${isArabic ? 'شراء, B2B, مصر, موردين, شركات, مشتريات, إدارة المشتريات, التوريد' : 'procurement, B2B, Egypt, suppliers, enterprise, purchasing, supply chain, vendor management'}">
         <meta name="author" content="Sourssing">
-        <link rel="canonical" href="${c.env.APP_URL || 'https://sourssing.com'}">
+        <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
+        <link rel="canonical" href="${c.env.APP_URL || 'https://sourssing.com'}${isArabic ? '?lang=ar' : ''}">
+        
+        <!-- Alternate Language URLs (Hreflang) -->
+        <link rel="alternate" hreflang="en" href="${c.env.APP_URL || 'https://sourssing.com'}?lang=en">
+        <link rel="alternate" hreflang="ar" href="${c.env.APP_URL || 'https://sourssing.com'}?lang=ar">
+        <link rel="alternate" hreflang="x-default" href="${c.env.APP_URL || 'https://sourssing.com'}">
         
         <!-- Open Graph / Facebook -->
         <meta property="og:type" content="website">
@@ -139,28 +219,65 @@ app.get('/', (c) => {
         <meta property="twitter:description" content="${content.description}">
         <meta property="twitter:image" content="${c.env.APP_URL}/static/og-image.jpg">
         
-        <!-- Schema.org structured data -->
+        <!-- Schema.org structured data (Organization + WebSite + BreadcrumbList) -->
         <script type="application/ld+json">
         {
           "@context": "https://schema.org",
           "@type": "Organization",
           "name": "Sourssing",
+          "alternateName": "سورسنج",
           "description": "${content.description}",
           "url": "${c.env.APP_URL || 'https://sourssing.com'}",
           "logo": "${c.env.APP_URL}/static/logo.png",
+          "foundingDate": "2025",
+          "foundingLocation": {
+            "@type": "Place",
+            "address": {
+              "@type": "PostalAddress",
+              "addressCountry": "EG",
+              "addressLocality": "Egypt"
+            }
+          },
+          "areaServed": {
+            "@type": "Country",
+            "name": "Egypt"
+          },
           "contactPoint": {
             "@type": "ContactPoint",
             "telephone": "+20-XXX-XXX-XXXX",
             "contactType": "customer service",
             "areaServed": "EG",
-            "availableLanguage": ["en", "ar"]
-          }
+            "availableLanguage": ["English", "Arabic"]
+          },
+          "sameAs": [
+            "https://www.facebook.com/sourssing",
+            "https://www.linkedin.com/company/sourssing",
+            "https://twitter.com/sourssing"
+          ]
+        }
+        </script>
+        <script type="application/ld+json">
+        {
+          "@context": "https://schema.org",
+          "@type": "WebSite",
+          "name": "Sourssing",
+          "url": "${c.env.APP_URL || 'https://sourssing.com'}",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "${c.env.APP_URL || 'https://sourssing.com'}/search?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          },
+          "inLanguage": ["en", "ar"]
         }
         </script>
         
-        <!-- Fonts & CSS -->
+        <!-- Preload Critical Resources -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="preconnect" href="https://cdn.tailwindcss.com">
+        <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+        
+        <!-- Fonts & CSS -->
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Cairo:wght@300;400;600;700;800&display=swap" rel="stylesheet">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" rel="stylesheet">
