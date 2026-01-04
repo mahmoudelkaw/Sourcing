@@ -73,6 +73,10 @@ export function buyerLayout(content: string, activeMenu: string = 'dashboard') {
                         <i class="fas fa-file-alt w-5"></i>
                         <span>My RFQs</span>
                     </a>
+                    <a href="/buyer/upload" class="nav-link ${activeMenu === 'upload' ? 'active' : ''} flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
+                        <i class="fas fa-cloud-upload-alt w-5"></i>
+                        <span>Upload & OCR</span>
+                    </a>
                     <a href="/buyer/quotations" class="nav-link ${activeMenu === 'quotations' ? 'active' : ''} flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition">
                         <i class="fas fa-file-invoice-dollar w-5"></i>
                         <span>Quotations</span>

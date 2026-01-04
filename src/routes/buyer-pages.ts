@@ -904,4 +904,270 @@ buyerPages.get('/orders', (c) => {
   return c.html(buyerLayout(content, 'orders'))
 })
 
+// Upload & OCR Page
+buyerPages.get('/upload', (c) => {
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Upload & Create RFQ</h1>
+        <p class="text-gray-600">Upload images of invoices, quotes, or product catalogs to auto-create RFQs</p>
+    </div>
+
+    <!-- Upload Section -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8 mb-6">
+        <h2 class="text-xl font-bold text-gray-900 mb-4">
+            <i class="fas fa-cloud-upload-alt mr-2 text-purple-600"></i>
+            Upload Image for OCR
+        </h2>
+        
+        <div class="mb-6">
+            <div id="drop-zone" class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center hover:border-purple-500 transition-colors cursor-pointer">
+                <i class="fas fa-file-image text-6xl text-gray-300 mb-4"></i>
+                <p class="text-lg font-medium text-gray-700 mb-2">Drop an image here or click to browse</p>
+                <p class="text-sm text-gray-500 mb-4">Supported: JPG, PNG, WebP (Max 5MB)</p>
+                <input type="file" id="file-input" accept="image/jpeg,image/jpg,image/png,image/webp" class="hidden">
+                <button onclick="document.getElementById('file-input').click()" class="px-6 py-3 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700">
+                    <i class="fas fa-folder-open mr-2"></i>Select File
+                </button>
+            </div>
+        </div>
+
+        <div id="preview-section" class="hidden">
+            <h3 class="text-lg font-semibold text-gray-900 mb-3">Selected File</h3>
+            <div class="flex items-center space-x-4 mb-4">
+                <img id="preview-image" src="" alt="Preview" class="w-32 h-32 object-cover rounded-lg border border-gray-200">
+                <div class="flex-1">
+                    <p class="font-medium text-gray-900" id="file-name">filename.jpg</p>
+                    <p class="text-sm text-gray-600" id="file-size">0 KB</p>
+                    <button onclick="clearFile()" class="text-sm text-red-600 hover:text-red-800 mt-2">
+                        <i class="fas fa-times mr-1"></i>Remove
+                    </button>
+                </div>
+            </div>
+            <button onclick="processOCR()" id="process-btn" class="w-full px-6 py-3 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700">
+                <i class="fas fa-magic mr-2"></i>Process with AI OCR
+            </button>
+        </div>
+    </div>
+
+    <!-- Results Section -->
+    <div id="results-section" class="hidden">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 mb-6">
+            <h2 class="text-xl font-bold text-gray-900 mb-4">
+                <i class="fas fa-check-circle mr-2 text-green-600"></i>
+                Extracted Data
+            </h2>
+            
+            <div id="extracted-data" class="space-y-4">
+                <!-- Results will be populated here -->
+            </div>
+
+            <div class="mt-6 pt-6 border-t border-gray-200">
+                <button onclick="createRFQFromOCR()" class="px-8 py-3 bg-purple-600 text-white font-semibold rounded-lg hover:bg-purple-700">
+                    <i class="fas fa-file-alt mr-2"></i>Create RFQ from This Data
+                </button>
+                <button onclick="resetForm()" class="ml-4 px-6 py-3 bg-gray-100 text-gray-700 font-medium rounded-lg hover:bg-gray-200">
+                    <i class="fas fa-redo mr-2"></i>Upload Another
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedFile = null;
+        let extractedData = null;
+
+        // File input change handler
+        document.getElementById('file-input').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                handleFileSelect(file);
+            }
+        });
+
+        // Drag and drop
+        const dropZone = document.getElementById('drop-zone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.classList.add('border-purple-500', 'bg-purple-50');
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.classList.remove('border-purple-500', 'bg-purple-50');
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dropZone.classList.remove('border-purple-500', 'bg-purple-50');
+            const file = e.dataTransfer.files[0];
+            if (file && file.type.startsWith('image/')) {
+                handleFileSelect(file);
+            } else {
+                showToast('Please drop an image file', 'error');
+            }
+        });
+
+        function handleFileSelect(file) {
+            selectedFile = file;
+            
+            // Show preview
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('preview-image').src = e.target.result;
+                document.getElementById('file-name').textContent = file.name;
+                document.getElementById('file-size').textContent = (file.size / 1024).toFixed(2) + ' KB';
+                document.getElementById('preview-section').classList.remove('hidden');
+                document.getElementById('results-section').classList.add('hidden');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearFile() {
+            selectedFile = null;
+            document.getElementById('preview-section').classList.add('hidden');
+            document.getElementById('file-input').value = '';
+        }
+
+        async function processOCR() {
+            if (!selectedFile) {
+                showToast('Please select a file first', 'error');
+                return;
+            }
+
+            const processBtn = document.getElementById('process-btn');
+            processBtn.disabled = true;
+            processBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', selectedFile);
+
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/upload/ocr', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token
+                    },
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    extractedData = result.data.extracted_data;
+                    displayExtractedData(extractedData);
+                    document.getElementById('results-section').classList.remove('hidden');
+                    showToast('Data extracted successfully!');
+                } else {
+                    showToast(result.error || 'Failed to process image', 'error');
+                }
+            } catch (error) {
+                console.error('OCR error:', error);
+                showToast('Failed to process image', 'error');
+            } finally {
+                processBtn.disabled = false;
+                processBtn.innerHTML = '<i class="fas fa-magic mr-2"></i>Process with AI OCR';
+            }
+        }
+
+        function displayExtractedData(data) {
+            const container = document.getElementById('extracted-data');
+            
+            let html = \`
+                <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                    <h3 class="font-semibold text-blue-900 mb-2">
+                        <i class="fas fa-robot mr-2"></i>AI Extracted Information
+                    </h3>
+                    <div class="space-y-2 text-sm">
+                        <div><strong>Title:</strong> \${data.title || 'Not detected'}</div>
+                        \${data.delivery_address ? \`<div><strong>Delivery Address:</strong> \${data.delivery_address}</div>\` : ''}
+                        \${data.notes ? \`<div><strong>Notes:</strong> \${data.notes}</div>\` : ''}
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold text-gray-900 mb-3">Extracted Items (\${data.items?.length || 0})</h4>
+                    <div class="space-y-2">
+                        \${(data.items || []).map((item, index) => \`
+                            <div class="border border-gray-200 rounded-lg p-4">
+                                <div class="flex items-start justify-between">
+                                    <div class="flex-1">
+                                        <div class="font-medium text-gray-900">\${index + 1}. \${item.item_name}</div>
+                                        <div class="text-sm text-gray-600 mt-1">
+                                            <span class="mr-4"><i class="fas fa-cubes mr-1"></i>Qty: \${item.quantity || 1} \${item.unit || 'pieces'}</span>
+                                            \${item.brand ? \`<span class="mr-4"><i class="fas fa-tag mr-1"></i>Brand: \${item.brand}</span>\` : ''}
+                                        </div>
+                                        \${item.specifications ? \`<div class="text-xs text-gray-500 mt-1">\${item.specifications}</div>\` : ''}
+                                    </div>
+                                    <i class="fas fa-check-circle text-green-600 text-xl"></i>
+                                </div>
+                            </div>
+                        \`).join('')}
+                    </div>
+                </div>
+            \`;
+            
+            container.innerHTML = html;
+        }
+
+        async function createRFQFromOCR() {
+            if (!extractedData) {
+                showToast('No data to create RFQ', 'error');
+                return;
+            }
+
+            try {
+                const token = localStorage.getItem('token');
+                const response = await fetch('/api/upload/create-rfq', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        title: extractedData.title || 'Uploaded RFQ',
+                        description: extractedData.notes || 'Created from uploaded image',
+                        delivery_address: extractedData.delivery_address || 'To be specified',
+                        items: extractedData.items,
+                        source: 'ocr'
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    showToast('RFQ created successfully!');
+                    setTimeout(() => {
+                        window.location.href = '/buyer/rfqs';
+                    }, 1500);
+                } else {
+                    showToast(result.error || 'Failed to create RFQ', 'error');
+                }
+            } catch (error) {
+                console.error('Create RFQ error:', error);
+                showToast('Failed to create RFQ', 'error');
+            }
+        }
+
+        function resetForm() {
+            selectedFile = null;
+            extractedData = null;
+            document.getElementById('preview-section').classList.add('hidden');
+            document.getElementById('results-section').classList.add('hidden');
+            document.getElementById('file-input').value = '';
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            toast.className = \`fixed top-4 right-4 \${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50\`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+    </script>
+  `
+  
+  return c.html(buyerLayout(content, 'upload'))
+})
+
 export default buyerPages

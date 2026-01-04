@@ -7,6 +7,7 @@ import rfqsRoutes from './routes/rfqs'
 import bidsRoutes from './routes/bids'
 import ordersRoutes from './routes/orders'
 import paymentsRoutes from './routes/payments'
+import uploadRoutes from './routes/upload'
 import adminRoutes from './routes/admin'
 import buyerPagesRoutes from './routes/buyer-pages'
 import vendorPagesRoutes from './routes/vendor-pages'
@@ -29,6 +30,7 @@ app.route('/api/rfqs', rfqsRoutes)
 app.route('/api/bids', bidsRoutes)
 app.route('/api/orders', ordersRoutes)
 app.route('/api/payments', paymentsRoutes)
+app.route('/api/upload', uploadRoutes)
 app.route('/api/admin', adminRoutes)
 
 // Portal Pages
