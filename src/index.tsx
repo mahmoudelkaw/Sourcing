@@ -4,6 +4,7 @@ import { serveStatic } from 'hono/cloudflare-workers'
 import authRoutes from './routes/auth'
 import productsRoutes from './routes/products'
 import rfqsRoutes from './routes/rfqs'
+import buyerPagesRoutes from './routes/buyer-pages'
 import { authMiddleware } from './middleware/auth'
 import type { Bindings } from './types'
 
@@ -19,6 +20,9 @@ app.use('/static/*', serveStatic({ root: './public' }))
 app.route('/api/auth', authRoutes)
 app.route('/api/products', productsRoutes)
 app.route('/api/rfqs', rfqsRoutes)
+
+// Buyer Portal Pages
+app.route('/buyer', buyerPagesRoutes)
 
 // Protected API example (with auth middleware)
 app.get('/api/protected', authMiddleware, (c) => {
