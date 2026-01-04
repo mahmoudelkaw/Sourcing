@@ -691,4 +691,212 @@ adminPages.get('/orders', (c) => {
   return c.html(getAdminLayout(content, 'Orders Management'))
 })
 
+// Payments Management
+adminPages.get('/payments', (c) => {
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Payments & Escrow Management</h1>
+        <p class="text-gray-600">Manage buyer payments, verify transactions, and release payments to vendors</p>
+    </div>
+
+    <!-- Escrow Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg p-6 text-white">
+            <div class="text-sm opacity-90 mb-1">Buyer Payments</div>
+            <div class="text-3xl font-bold" id="buyer-total">EGP 0</div>
+            <div class="text-xs opacity-75 mt-1" id="buyer-count">0 transactions</div>
+        </div>
+        <div class="bg-gradient-to-br from-green-500 to-green-600 rounded-lg shadow-lg p-6 text-white">
+            <div class="text-sm opacity-90 mb-1">Vendor Payments</div>
+            <div class="text-3xl font-bold" id="vendor-total">EGP 0</div>
+            <div class="text-xs opacity-75 mt-1" id="vendor-count">0 transactions</div>
+        </div>
+        <div class="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg shadow-lg p-6 text-white">
+            <div class="text-sm opacity-90 mb-1">In Escrow</div>
+            <div class="text-3xl font-bold" id="escrow-balance">EGP 0</div>
+            <div class="text-xs opacity-75 mt-1">Held in escrow</div>
+        </div>
+        <div class="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg shadow-lg p-6 text-white">
+            <div class="text-sm opacity-90 mb-1">Sourssing Revenue</div>
+            <div class="text-3xl font-bold" id="revenue">EGP 0</div>
+            <div class="text-xs opacity-75 mt-1">Platform earnings</div>
+        </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+        <div class="flex items-center space-x-4">
+            <select id="type-filter" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <option value="">All Types</option>
+                <option value="buyer_payment">Buyer Payments</option>
+                <option value="vendor_payment">Vendor Payments</option>
+            </select>
+            <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <option value="">All Status</option>
+                <option value="pending_verification">Pending Verification</option>
+                <option value="verified">Verified</option>
+                <option value="released">Released</option>
+                <option value="rejected">Rejected</option>
+            </select>
+            <button onclick="loadPayments()" class="px-6 py-2 bg-orange-600 text-white font-medium rounded-lg hover:bg-orange-700">
+                <i class="fas fa-filter mr-2"></i>Filter
+            </button>
+        </div>
+    </div>
+
+    <!-- Payments List -->
+    <div id="payments-list" class="space-y-4">
+        <div class="text-center py-12 text-gray-400">Loading...</div>
+    </div>
+
+    <script>
+        async function loadEscrowSummary() {
+            try {
+                const res = await apiCall('/api/payments/escrow/summary');
+                if (res.success) {
+                    document.getElementById('buyer-total').textContent = 'EGP ' + Number(res.data.buyer_payments.total).toLocaleString();
+                    document.getElementById('buyer-count').textContent = res.data.buyer_payments.count + ' transactions';
+                    document.getElementById('vendor-total').textContent = 'EGP ' + Number(res.data.vendor_payments.total).toLocaleString();
+                    document.getElementById('vendor-count').textContent = res.data.vendor_payments.count + ' transactions';
+                    document.getElementById('escrow-balance').textContent = 'EGP ' + Number(res.data.escrow_balance).toLocaleString();
+                    document.getElementById('revenue').textContent = 'EGP ' + Number(res.data.sourssing_revenue).toLocaleString();
+                }
+            } catch (error) {
+                console.error('Load escrow summary error:', error);
+            }
+        }
+
+        async function loadPayments(page = 1) {
+            try {
+                const type = document.getElementById('type-filter').value;
+                const status = document.getElementById('status-filter').value;
+                const params = new URLSearchParams({ page: page.toString(), limit: '10' });
+                if (type) params.append('type', type);
+                if (status) params.append('status', status);
+                
+                const res = await apiCall('/api/payments?' + params);
+                if (res.success) {
+                    displayPayments(res.data.payments);
+                }
+            } catch (error) {
+                console.error('Load payments error:', error);
+            }
+        }
+
+        function displayPayments(payments) {
+            const container = document.getElementById('payments-list');
+            if (!payments || payments.length === 0) {
+                container.innerHTML = '<div class="bg-white rounded-lg p-12 text-center text-gray-400">No payments found</div>';
+                return;
+            }
+
+            const statusColors = {
+                pending_verification: { bg: 'bg-yellow-100', text: 'text-yellow-800' },
+                verified: { bg: 'bg-green-100', text: 'text-green-800' },
+                released: { bg: 'bg-blue-100', text: 'text-blue-800' },
+                rejected: { bg: 'bg-red-100', text: 'text-red-800' }
+            };
+
+            const typeColors = {
+                buyer_payment: { bg: 'bg-blue-100', text: 'text-blue-800' },
+                vendor_payment: { bg: 'bg-purple-100', text: 'text-purple-800' }
+            };
+
+            container.innerHTML = payments.map(payment => {
+                const status = statusColors[payment.status] || { bg: 'bg-gray-100', text: 'text-gray-800' };
+                const type = typeColors[payment.payment_type] || { bg: 'bg-gray-100', text: 'text-gray-800' };
+                
+                return \`
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-2">
+                                    <span class="text-sm font-mono bg-purple-100 text-purple-800 px-3 py-1 rounded">\${payment.payment_number}</span>
+                                    <span class="text-sm \${type.bg} \${type.text} px-3 py-1 rounded capitalize">\${payment.payment_type?.replace(/_/g, ' ')}</span>
+                                    <span class="text-sm \${status.bg} \${status.text} px-3 py-1 rounded capitalize">\${payment.status}</span>
+                                </div>
+                                <div class="mb-2">
+                                    <span class="text-2xl font-bold text-gray-900">EGP \${Number(payment.amount).toLocaleString()}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 text-sm text-gray-600">
+                                    <div><i class="fas fa-file-invoice mr-1"></i>Order: \${payment.order_number}</div>
+                                    <div><i class="fas fa-credit-card mr-1"></i>Method: \${payment.payment_method?.replace(/_/g, ' ')}</div>
+                                    <div><i class="fas fa-calendar mr-1"></i>Date: \${new Date(payment.created_at).toLocaleDateString()}</div>
+                                    \${payment.transaction_reference ? \`<div><i class="fas fa-hashtag mr-1"></i>Ref: \${payment.transaction_reference}</div>\` : ''}
+                                </div>
+                            </div>
+                            <div class="ml-6 flex flex-col space-y-2">
+                                \${payment.status === 'pending_verification' && payment.payment_type === 'buyer_payment' ? \`
+                                    <button onclick="verifyPayment(\${payment.id}, true)" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700 text-sm">
+                                        <i class="fas fa-check mr-1"></i>Verify
+                                    </button>
+                                    <button onclick="verifyPayment(\${payment.id}, false)" class="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700 text-sm">
+                                        <i class="fas fa-times mr-1"></i>Reject
+                                    </button>
+                                \` : ''}
+                                \${payment.status === 'verified' && payment.payment_type === 'buyer_payment' ? \`
+                                    <button onclick="releasePayment(\${payment.id})" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 text-sm">
+                                        <i class="fas fa-paper-plane mr-1"></i>Release to Vendor
+                                    </button>
+                                \` : ''}
+                            </div>
+                        </div>
+                    </div>
+                \`;
+            }).join('');
+        }
+
+        async function verifyPayment(paymentId, verified) {
+            const notes = prompt(verified ? 'Verification notes (optional):' : 'Rejection reason:');
+            if (notes === null && !verified) return;
+            
+            try {
+                const res = await apiCall(\`/api/payments/\${paymentId}/verify\`, {
+                    method: 'PUT',
+                    body: JSON.stringify({ verified, notes: notes || '' })
+                });
+                
+                if (res.success) {
+                    showToast(verified ? 'Payment verified' : 'Payment rejected');
+                    loadPayments();
+                    loadEscrowSummary();
+                } else {
+                    showToast(res.error || 'Failed to verify payment', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to verify payment', 'error');
+            }
+        }
+
+        async function releasePayment(paymentId) {
+            const notes = prompt('Release notes (optional):');
+            if (notes === null) return;
+            
+            try {
+                const res = await apiCall(\`/api/payments/\${paymentId}/release\`, {
+                    method: 'POST',
+                    body: JSON.stringify({ notes: notes || '' })
+                });
+                
+                if (res.success) {
+                    showToast('Payment released to vendor');
+                    loadPayments();
+                    loadEscrowSummary();
+                } else {
+                    showToast(res.error || 'Failed to release payment', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to release payment', 'error');
+            }
+        }
+
+        // Load data on page load
+        loadEscrowSummary();
+        loadPayments();
+    </script>
+  `
+  
+  return c.html(getAdminLayout(content, 'Payments Management'))
+})
+
 export default adminPages

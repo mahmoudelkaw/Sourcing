@@ -595,4 +595,313 @@ buyerPages.get('/rfqs', (c) => {
   return c.html(buyerLayout(content, 'rfqs'))
 })
 
+// My Orders Page
+buyerPages.get('/orders', (c) => {
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">My Orders</h1>
+        <p class="text-gray-600">Track your orders and delivery status</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 mb-6">
+        <div class="flex items-center space-x-4">
+            <select id="status-filter" class="px-4 py-2 border border-gray-300 rounded-lg">
+                <option value="">All Status</option>
+                <option value="pending_payment">Pending Payment</option>
+                <option value="payment_received">Payment Received</option>
+                <option value="confirmed">Confirmed</option>
+                <option value="in_warehouse">In Warehouse</option>
+                <option value="shipped">Shipped</option>
+                <option value="delivered">Delivered</option>
+                <option value="completed">Completed</option>
+            </select>
+            <button onclick="loadOrders()" class="px-6 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700">
+                <i class="fas fa-filter mr-2"></i>Filter
+            </button>
+        </div>
+    </div>
+
+    <!-- Orders List -->
+    <div id="orders-list" class="space-y-4">
+        <div class="text-center py-12 text-gray-400">
+            <i class="fas fa-spinner fa-spin text-4xl mb-3"></i>
+            <p>Loading orders...</p>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div id="pagination" class="mt-6"></div>
+
+    <script>
+        async function loadOrders(page = 1) {
+            try {
+                const status = document.getElementById('status-filter').value;
+                const params = new URLSearchParams({ page: page.toString(), limit: '10' });
+                if (status) params.append('status', status);
+                
+                const res = await apiCall('/api/orders?' + params);
+                if (res.success) {
+                    displayOrders(res.data.orders);
+                    displayPagination(res.data.pagination);
+                } else {
+                    showError(res.error || 'Failed to load orders');
+                }
+            } catch (error) {
+                console.error('Load orders error:', error);
+                showError('Failed to load orders');
+            }
+        }
+
+        function displayOrders(orders) {
+            const container = document.getElementById('orders-list');
+            if (!orders || orders.length === 0) {
+                container.innerHTML = \`
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-12 text-center">
+                        <i class="fas fa-inbox text-gray-300 text-5xl mb-4"></i>
+                        <h3 class="text-xl font-semibold text-gray-700 mb-2">No Orders Yet</h3>
+                        <p class="text-gray-500 mb-4">Your orders will appear here once created.</p>
+                        <a href="/buyer/catalog" class="inline-block px-6 py-2 bg-purple-600 text-white font-medium rounded-lg hover:bg-purple-700">
+                            Browse Catalog
+                        </a>
+                    </div>
+                \`;
+                return;
+            }
+
+            const statusColors = {
+                pending_payment: { bg: 'bg-yellow-100', text: 'text-yellow-800', icon: 'fa-clock' },
+                payment_received: { bg: 'bg-blue-100', text: 'text-blue-800', icon: 'fa-check-circle' },
+                confirmed: { bg: 'bg-green-100', text: 'text-green-800', icon: 'fa-check-double' },
+                in_warehouse: { bg: 'bg-indigo-100', text: 'text-indigo-800', icon: 'fa-warehouse' },
+                qa_pending: { bg: 'bg-orange-100', text: 'text-orange-800', icon: 'fa-clipboard-check' },
+                shipped: { bg: 'bg-blue-100', text: 'text-blue-800', icon: 'fa-shipping-fast' },
+                delivered: { bg: 'bg-green-100', text: 'text-green-800', icon: 'fa-box-open' },
+                completed: { bg: 'bg-gray-100', text: 'text-gray-800', icon: 'fa-check-circle' }
+            };
+
+            container.innerHTML = orders.map(order => {
+                const status = statusColors[order.status] || { bg: 'bg-gray-100', text: 'text-gray-800', icon: 'fa-question' };
+                return \`
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-6 hover:shadow-md transition-all">
+                        <div class="flex items-start justify-between">
+                            <div class="flex-1">
+                                <div class="flex items-center space-x-3 mb-3">
+                                    <span class="text-sm font-mono bg-purple-100 text-purple-800 px-3 py-1 rounded-lg">\${order.order_number}</span>
+                                    <span class="text-sm \${status.bg} \${status.text} px-3 py-1 rounded-lg capitalize">
+                                        <i class="fas \${status.icon} mr-1"></i>\${order.status.replace(/_/g, ' ')}
+                                    </span>
+                                    \${order.qa_status ? \`<span class="text-xs bg-blue-100 text-blue-800 px-2 py-1 rounded">QA: \${order.qa_status}</span>\` : ''}
+                                </div>
+                                <div class="mb-3">
+                                    <span class="text-2xl font-bold text-gray-900">EGP \${Number(order.total_amount).toLocaleString()}</span>
+                                </div>
+                                <div class="grid grid-cols-2 gap-3 text-sm text-gray-600 mb-3">
+                                    <div><i class="fas fa-calendar mr-1"></i>Ordered: \${new Date(order.created_at).toLocaleDateString()}</div>
+                                    \${order.confirmed_at ? \`<div><i class="fas fa-check mr-1"></i>Confirmed: \${new Date(order.confirmed_at).toLocaleDateString()}</div>\` : ''}
+                                    \${order.shipped_at ? \`<div><i class="fas fa-truck mr-1"></i>Shipped: \${new Date(order.shipped_at).toLocaleDateString()}</div>\` : ''}
+                                    \${order.delivered_at ? \`<div><i class="fas fa-box-open mr-1"></i>Delivered: \${new Date(order.delivered_at).toLocaleDateString()}</div>\` : ''}
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                    <i class="fas fa-map-marker-alt mr-1"></i>\${order.delivery_address}
+                                </div>
+                            </div>
+                            <div class="ml-6 flex flex-col space-y-2">
+                                <button onclick="viewOrderDetails(\${order.id})" class="px-4 py-2 bg-purple-600 text-white rounded-lg hover:bg-purple-700 text-sm font-medium">
+                                    <i class="fas fa-eye mr-1"></i>View Details
+                                </button>
+                                \${order.status === 'pending_payment' ? \`
+                                    <button onclick="makePayment(\${order.id})" class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 text-sm font-medium">
+                                        <i class="fas fa-credit-card mr-1"></i>Pay Now
+                                    </button>
+                                \` : ''}
+                            </div>
+                        </div>
+                    </div>
+                \`;
+            }).join('');
+        }
+
+        function displayPagination(pagination) {
+            const container = document.getElementById('pagination');
+            if (pagination.totalPages <= 1) {
+                container.innerHTML = '';
+                return;
+            }
+
+            let pages = '';
+            for (let i = 1; i <= pagination.totalPages; i++) {
+                const active = i === pagination.page ? 'bg-purple-600 text-white' : 'bg-white text-gray-700 hover:bg-gray-100';
+                pages += \`<button onclick="loadOrders(\${i})" class="\${active} px-4 py-2 border border-gray-300 font-medium">\${i}</button>\`;
+            }
+
+            container.innerHTML = \`
+                <div class="flex items-center justify-center space-x-1">
+                    \${pages}
+                </div>
+            \`;
+        }
+
+        async function viewOrderDetails(orderId) {
+            try {
+                const res = await apiCall(\`/api/orders/\${orderId}\`);
+                if (res.success) {
+                    showOrderModal(res.data.order, res.data.items, res.data.payment);
+                } else {
+                    showToast(res.error || 'Failed to load order', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to load order', 'error');
+            }
+        }
+
+        function showOrderModal(order, items, payment) {
+            const modal = document.createElement('div');
+            modal.className = 'fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4';
+            modal.onclick = (e) => { if (e.target === modal) modal.remove(); };
+            
+            modal.innerHTML = \`
+                <div class="bg-white rounded-lg shadow-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+                    <div class="p-6 border-b border-gray-200 flex items-center justify-between sticky top-0 bg-white z-10">
+                        <div>
+                            <h2 class="text-2xl font-bold text-gray-900">\${order.order_number}</h2>
+                            <p class="text-sm text-gray-600">RFQ: \${order.rfq_title || order.rfq_number}</p>
+                        </div>
+                        <button onclick="this.closest('.fixed').remove()" class="text-gray-400 hover:text-gray-600">
+                            <i class="fas fa-times text-2xl"></i>
+                        </button>
+                    </div>
+                    
+                    <div class="p-6">
+                        <!-- Order Summary -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-6">
+                            <div class="grid grid-cols-2 gap-4 text-sm">
+                                <div>
+                                    <span class="text-gray-600">Status:</span>
+                                    <span class="ml-2 font-semibold capitalize">\${order.status.replace(/_/g, ' ')}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">QA Status:</span>
+                                    <span class="ml-2 font-semibold capitalize">\${order.qa_status || 'Pending'}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Total Amount:</span>
+                                    <span class="ml-2 font-bold text-purple-600">EGP \${Number(order.total_amount).toLocaleString()}</span>
+                                </div>
+                                <div>
+                                    <span class="text-gray-600">Vendor:</span>
+                                    <span class="ml-2 font-semibold">\${order.vendor_company}</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Order Items -->
+                        <div class="mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-3">Order Items</h3>
+                            <div class="space-y-2">
+                                \${items.map(item => \`
+                                    <div class="border border-gray-200 rounded-lg p-3 flex justify-between">
+                                        <div>
+                                            <div class="font-medium text-gray-900">\${item.item_name}</div>
+                                            <div class="text-sm text-gray-600">Quantity: \${item.quantity} \${item.unit}</div>
+                                        </div>
+                                        <div class="text-right">
+                                            <div class="font-semibold text-gray-900">EGP \${Number(item.buyer_unit_price).toLocaleString()}</div>
+                                            <div class="text-sm text-gray-600">Total: EGP \${Number(item.line_total).toLocaleString()}</div>
+                                        </div>
+                                    </div>
+                                \`).join('')}
+                            </div>
+                        </div>
+
+                        <!-- Payment Info -->
+                        \${payment ? \`
+                            <div class="bg-blue-50 rounded-lg p-4">
+                                <h3 class="text-lg font-semibold text-gray-900 mb-2">Payment Information</h3>
+                                <div class="grid grid-cols-2 gap-3 text-sm">
+                                    <div>
+                                        <span class="text-gray-600">Payment #:</span>
+                                        <span class="ml-2 font-mono">\${payment.payment_number}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Status:</span>
+                                        <span class="ml-2 font-semibold capitalize">\${payment.status}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Amount:</span>
+                                        <span class="ml-2 font-bold">EGP \${Number(payment.amount).toLocaleString()}</span>
+                                    </div>
+                                    <div>
+                                        <span class="text-gray-600">Method:</span>
+                                        <span class="ml-2 capitalize">\${payment.payment_method?.replace(/_/g, ' ')}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        \` : ''}
+
+                        <!-- Delivery Address -->
+                        <div class="mt-4 text-sm text-gray-600">
+                            <i class="fas fa-map-marker-alt mr-1"></i>
+                            <span class="font-medium">Delivery Address:</span>
+                            <span class="ml-1">\${order.delivery_address}</span>
+                        </div>
+                    </div>
+                </div>
+            \`;
+            
+            document.body.appendChild(modal);
+        }
+
+        async function makePayment(orderId) {
+            const method = prompt('Payment Method (bank_transfer/cash/credit_card):', 'bank_transfer');
+            if (!method) return;
+            
+            const reference = prompt('Transaction Reference (optional):');
+            
+            try {
+                const res = await apiCall(\`/api/orders/\${orderId}/confirm-payment\`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        payment_method: method,
+                        transaction_reference: reference
+                    })
+                });
+                
+                if (res.success) {
+                    showToast('Payment confirmation submitted for verification');
+                    loadOrders();
+                } else {
+                    showToast(res.error || 'Failed to submit payment', 'error');
+                }
+            } catch (error) {
+                showToast('Failed to submit payment', 'error');
+            }
+        }
+
+        function showError(message) {
+            document.getElementById('orders-list').innerHTML = \`
+                <div class="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
+                    <i class="fas fa-exclamation-circle text-red-600 text-3xl mb-2"></i>
+                    <p class="text-red-800">\${message}</p>
+                </div>
+            \`;
+        }
+
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            const bgColor = type === 'success' ? 'bg-green-500' : 'bg-red-500';
+            toast.className = \`fixed top-4 right-4 \${bgColor} text-white px-6 py-3 rounded-lg shadow-lg z-50\`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Load orders on page load
+        loadOrders();
+    </script>
+  `
+  
+  return c.html(buyerLayout(content, 'orders'))
+})
+
 export default buyerPages
