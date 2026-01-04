@@ -135,21 +135,21 @@ app.get('/', (c) => {
   const dir = isArabic ? 'rtl' : 'ltr'
   
   const content = isArabic ? {
-    title: 'ليسورس | منصة الشراء B2B للشركات في مصر',
-    description: 'منصة شراء احترافية للشركات والمؤسسات. مورد واحد موثوق. جودة مضمونة. فواتير موحدة. نبسط عمليات الشراء للأعمال.',
-    hero_title: 'بسّط عمليات الشراء للشركات',
-    hero_subtitle: 'مورد واحد. جودة مضمونة. فواتير موحدة.',
-    hero_desc: 'ليسورس هي منصة الشراء B2B الرائدة في مصر. نوفر لك مورد واحد موثوق لكل احتياجات شركتك مع ضمان الجودة والتسعير التنافسي.',
+    title: 'ليسورس | مورد المستلزمات المكتبية ومواد التنظيف للشركات في مصر',
+    description: 'مورد متخصص في المستلزمات المكتبية ومواد التنظيف للشركات المصرية. جودة مضمونة، أسعار تنافسية، توصيل سريع. نبسط مشترياتك المكتبية.',
+    hero_title: 'مورد المستلزمات المكتبية ومواد التنظيف',
+    hero_subtitle: 'كل ما تحتاجه شركتك من أدوات مكتبية ومواد نظافة',
+    hero_desc: 'ليسورس متخصصون في توفير المستلزمات المكتبية الكاملة ومواد التنظيف الاحترافية للشركات المصرية. مورد واحد موثوق، جودة مضمونة، وأسعار تنافسية.',
     cta_buyer: 'سجّل كمشتري',
     cta_vendor: 'سجّل كمورد',
-    feature1_title: 'مورد واحد موثوق',
-    feature1_desc: 'لا حاجة للتعامل مع عشرات الموردين. نحن نوفر لك كل ما تحتاجه.',
-    feature2_title: 'جودة مضمونة',
-    feature2_desc: 'فحص دقيق للجودة في مستودعنا قبل التسليم.',
-    feature3_title: 'فواتير موحدة',
-    feature3_desc: 'فاتورة واحدة لكل طلباتك. بسّط محاسبتك.',
+    feature1_title: 'مستلزمات مكتبية شاملة',
+    feature1_desc: 'أقلام، أوراق، دفاتر، مجلدات، أدوات طباعة وكل احتياجات مكتبك.',
+    feature2_title: 'مواد تنظيف احترافية',
+    feature2_desc: 'منظفات، مطهرات، مناديل، معطرات وجميع مواد النظافة للشركات.',
+    feature3_title: 'توصيل سريع',
+    feature3_desc: 'توصيل سريع لطلباتك في القاهرة والجيزة خلال 24-48 ساعة.',
     feature4_title: 'أسعار تنافسية',
-    feature4_desc: 'نفاوض مع الموردين للحصول على أفضل الأسعار لك.',
+    feature4_desc: 'أفضل الأسعار في السوق مع خصومات للطلبات الكبيرة وأسعار الجملة.',
     how_title: 'كيف يعمل',
     how_step1: '1. أنشئ حساب وسجّل شركتك',
     how_step2: '2. تصفح الكتالوج أو أرسل طلب عرض سعر',
@@ -160,21 +160,21 @@ app.get('/', (c) => {
     footer_contact: 'اتصل بنا',
     footer_rights: '© 2026 ليسورس. جميع الحقوق محفوظة.',
   } : {
-    title: 'Lesorce | B2B Procurement Platform for Egyptian Enterprises',
-    description: 'Professional B2B procurement marketplace for companies and institutions. One trusted supplier. Guaranteed quality. Consolidated invoicing. Streamline your business procurement.',
-    hero_title: 'Streamline Your B2B Procurement',
-    hero_subtitle: 'One supplier. Guaranteed quality. Consolidated invoicing.',
-    hero_desc: 'Lesorce is Egypt\'s leading B2B procurement platform. We provide one trusted supplier for all your company needs with quality assurance and competitive pricing.',
+    title: 'Lesorce | Office Supplies & Cleaning Products for Egyptian Businesses',
+    description: 'Leading supplier of office stationery and professional cleaning supplies for Egyptian companies. Guaranteed quality, competitive prices, fast delivery. Simplify your office procurement.',
+    hero_title: 'Office Supplies & Cleaning Products Supplier',
+    hero_subtitle: 'Everything your business needs in stationery and cleaning',
+    hero_desc: 'Lesorce specializes in providing complete office stationery and professional cleaning supplies for Egyptian businesses. One trusted supplier, guaranteed quality, and competitive wholesale prices.',
     cta_buyer: 'Register as Buyer',
     cta_vendor: 'Register as Vendor',
-    feature1_title: 'One Trusted Supplier',
-    feature1_desc: 'No need to deal with dozens of vendors. We provide everything you need.',
-    feature2_title: 'Guaranteed Quality',
-    feature2_desc: 'Strict quality inspection at our warehouse before delivery.',
-    feature3_title: 'Consolidated Invoicing',
-    feature3_desc: 'One invoice for all your orders. Simplify your accounting.',
-    feature4_title: 'Competitive Pricing',
-    feature4_desc: 'We negotiate with suppliers to get you the best prices.',
+    feature1_title: 'Complete Office Stationery',
+    feature1_desc: 'Pens, paper, notebooks, folders, printing supplies, and all office essentials.',
+    feature2_title: 'Professional Cleaning Supplies',
+    feature2_desc: 'Detergents, disinfectants, tissues, air fresheners, and all cleaning materials.',
+    feature3_title: 'Fast Delivery',
+    feature3_desc: 'Quick delivery in Cairo and Giza within 24-48 hours of ordering.',
+    feature4_title: 'Wholesale Pricing',
+    feature4_desc: 'Best market prices with bulk discounts and wholesale rates for businesses.',
     how_title: 'How It Works',
     how_step1: '1. Create account and register your company',
     how_step2: '2. Browse catalog or submit RFQ',
@@ -196,7 +196,7 @@ app.get('/', (c) => {
         <!-- SEO Meta Tags -->
         <title>${content.title}</title>
         <meta name="description" content="${content.description}">
-        <meta name="keywords" content="${isArabic ? 'شراء, B2B, مصر, موردين, شركات, مشتريات, إدارة المشتريات, التوريد' : 'procurement, B2B, Egypt, suppliers, enterprise, purchasing, supply chain, vendor management'}">
+        <meta name="keywords" content="${isArabic ? 'مستلزمات مكتبية, مواد تنظيف, أدوات مكتبية, منظفات, مطهرات, أوراق, أقلام, دفاتر, مصر, شركات' : 'office supplies, cleaning supplies, stationery, detergents, disinfectants, paper, pens, notebooks, Egypt, wholesale'}">
         <meta name="author" content="Lesorce">
         <meta name="robots" content="index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1">
         <link rel="canonical" href="${c.env.APP_URL || 'https://sourssing.com'}${isArabic ? '?lang=ar' : ''}">
@@ -287,7 +287,7 @@ app.get('/', (c) => {
         <style>
           ${isArabic ? 'body { font-family: "Cairo", sans-serif; }' : 'body { font-family: "Inter", sans-serif; }'}
           .gradient-bg {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0ea5e9 0%, #10b981 100%);
           }
           .animate-fade-in {
             animation: fadeIn 0.6s ease-in;
@@ -311,15 +311,15 @@ app.get('/', (c) => {
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex items-center">
-                        <i class="fas fa-layer-group text-3xl text-purple-600 ${dir === 'rtl' ? 'ml-3' : 'mr-3'}"></i>
+                        <i class="fas fa-pen-fancy text-3xl text-sky-600 ${dir === 'rtl' ? 'ml-3' : 'mr-3'}"></i>
                         <span class="text-2xl font-bold text-gray-900">Lesorce</span>
                     </div>
                     <div class="flex items-center gap-4">
-                        <a href="?lang=${isArabic ? 'en' : 'ar'}" class="text-gray-600 hover:text-purple-600">
+                        <a href="?lang=${isArabic ? 'en' : 'ar'}" class="text-gray-600 hover:text-sky-600">
                             <i class="fas fa-language ${dir === 'rtl' ? 'ml-2' : 'mr-2'}"></i>
                             ${isArabic ? 'English' : 'العربية'}
                         </a>
-                        <a href="/login" class="text-gray-600 hover:text-purple-600 font-medium">
+                        <a href="/login" class="text-gray-600 hover:text-sky-600 font-medium">
                             ${isArabic ? 'تسجيل الدخول' : 'Login'}
                         </a>
                     </div>
@@ -341,12 +341,12 @@ app.get('/', (c) => {
                 </p>
                 <div class="flex flex-col sm:flex-row gap-4 justify-center">
                     <a href="/register?role=buyer" 
-                       class="bg-white text-purple-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-lg">
+                       class="bg-white text-sky-600 px-8 py-4 rounded-lg font-bold text-lg hover:bg-gray-100 transition shadow-lg">
                         <i class="fas fa-building ${dir === 'rtl' ? 'ml-2' : 'mr-2'}"></i>
                         ${content.cta_buyer}
                     </a>
                     <a href="/register?role=vendor" 
-                       class="bg-purple-800 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-purple-900 transition shadow-lg">
+                       class="bg-emerald-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-emerald-700 transition shadow-lg">
                         <i class="fas fa-truck ${dir === 'rtl' ? 'ml-2' : 'mr-2'}"></i>
                         ${content.cta_vendor}
                     </a>
@@ -359,28 +359,28 @@ app.get('/', (c) => {
             <div class="max-w-7xl mx-auto">
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div class="feature-card bg-white p-8 rounded-xl shadow-md">
-                        <div class="text-purple-600 text-4xl mb-4">
-                            <i class="fas fa-handshake"></i>
+                        <div class="text-sky-600 text-4xl mb-4">
+                            <i class="fas fa-pen"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3 text-gray-900">${content.feature1_title}</h3>
                         <p class="text-gray-600">${content.feature1_desc}</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-xl shadow-md">
-                        <div class="text-purple-600 text-4xl mb-4">
-                            <i class="fas fa-certificate"></i>
+                        <div class="text-emerald-600 text-4xl mb-4">
+                            <i class="fas fa-spray-can"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3 text-gray-900">${content.feature2_title}</h3>
                         <p class="text-gray-600">${content.feature2_desc}</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-xl shadow-md">
-                        <div class="text-purple-600 text-4xl mb-4">
-                            <i class="fas fa-file-invoice"></i>
+                        <div class="text-sky-600 text-4xl mb-4">
+                            <i class="fas fa-truck-fast"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3 text-gray-900">${content.feature3_title}</h3>
                         <p class="text-gray-600">${content.feature3_desc}</p>
                     </div>
                     <div class="feature-card bg-white p-8 rounded-xl shadow-md">
-                        <div class="text-purple-600 text-4xl mb-4">
+                        <div class="text-emerald-600 text-4xl mb-4">
                             <i class="fas fa-tags"></i>
                         </div>
                         <h3 class="text-xl font-bold mb-3 text-gray-900">${content.feature4_title}</h3>
