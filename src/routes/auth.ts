@@ -1,4 +1,21 @@
-// Authentication Routes
+/**
+ * Authentication Routes
+ * 
+ * Handles user authentication, registration, and profile management.
+ * Supports three user roles: buyer, vendor, and admin.
+ * 
+ * Endpoints:
+ * - POST /api/auth/login - User login with email/password
+ * - POST /api/auth/register/buyer - Buyer registration
+ * - POST /api/auth/register/vendor - Vendor registration  
+ * - GET /api/auth/me - Get current user profile (protected)
+ * 
+ * Security:
+ * - Passwords are hashed using SHA-256
+ * - JWT tokens are used for authentication (7-day expiry)
+ * - All registrations start with 'pending' status and require admin approval
+ * - Tax IDs must be unique per role
+ */
 
 import { Hono } from 'hono'
 import { z } from 'zod'
@@ -8,12 +25,27 @@ import type { Bindings, User, BuyerProfile, VendorProfile, APIResponse } from '.
 
 const auth = new Hono<{ Bindings: Bindings }>()
 
-// Validation schemas
+// ============================================================================
+// VALIDATION SCHEMAS
+// ============================================================================
+
+/**
+ * Login validation schema
+ * - Email must be valid format
+ * - Password must be at least 6 characters
+ */
 const loginSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6)
 })
 
+/**
+ * Buyer registration validation schema
+ * - All fields support bilingual input (English + Arabic)
+ * - Tax ID must be unique and at least 5 characters
+ * - Phone must be at least 10 characters
+ * - Address must be at least 10 characters
+ */
 const registerBuyerSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
@@ -29,6 +61,11 @@ const registerBuyerSchema = z.object({
   phone: z.string().min(10)
 })
 
+/**
+ * Vendor registration validation schema
+ * - Same as buyer schema plus optional categories array
+ * - Categories are stored as JSON string in database
+ */
 const registerVendorSchema = z.object({
   email: z.string().email(),
   password: z.string().min(6),
@@ -45,7 +82,38 @@ const registerVendorSchema = z.object({
   categories: z.array(z.string()).optional()
 })
 
-// POST /api/auth/login
+// ============================================================================
+// AUTHENTICATION ENDPOINTS
+// ============================================================================
+
+/**
+ * POST /api/auth/login
+ * 
+ * Authenticate user and return JWT token
+ * 
+ * Request Body:
+ * {
+ *   email: string,
+ *   password: string
+ * }
+ * 
+ * Response:
+ * {
+ *   success: true,
+ *   message: "Login successful",
+ *   data: {
+ *     token: string (JWT),
+ *     user: { id, email, role, status },
+ *     profile: { ... } (buyer or vendor profile)
+ *   }
+ * }
+ * 
+ * Error Responses:
+ * - 400: Invalid input
+ * - 401: Invalid credentials
+ * - 403: Account not active
+ * - 500: Server error
+ */
 auth.post('/login', async (c) => {
   try {
     const body = await c.req.json()
@@ -150,7 +218,39 @@ auth.post('/login', async (c) => {
   }
 })
 
-// POST /api/auth/register/buyer
+/**
+ * POST /api/auth/register/buyer
+ * 
+ * Register a new buyer account
+ * 
+ * Request Body:
+ * {
+ *   email: string,
+ *   password: string (min 6 chars),
+ *   company_name: string,
+ *   company_name_ar?: string,
+ *   tax_id: string (min 5 chars, must be unique),
+ *   address: string (min 10 chars),
+ *   address_ar?: string,
+ *   city: string,
+ *   city_ar?: string,
+ *   contact_person: string,
+ *   contact_person_ar?: string,
+ *   phone: string (min 10 chars)
+ * }
+ * 
+ * Response:
+ * {
+ *   success: true,
+ *   message: "Buyer registration successful. Awaiting admin approval.",
+ *   data: { userId, email, status: "pending" }
+ * }
+ * 
+ * Error Responses:
+ * - 400: Invalid input
+ * - 409: Email or Tax ID already registered
+ * - 500: Server error
+ */
 auth.post('/register/buyer', async (c) => {
   try {
     const body = await c.req.json()
@@ -254,7 +354,29 @@ auth.post('/register/buyer', async (c) => {
   }
 })
 
-// POST /api/auth/register/vendor
+/**
+ * POST /api/auth/register/vendor
+ * 
+ * Register a new vendor account
+ * 
+ * Request Body: (same as buyer + categories)
+ * {
+ *   ...buyer fields,
+ *   categories?: string[] (e.g., ["Office Supplies", "Electronics"])
+ * }
+ * 
+ * Response:
+ * {
+ *   success: true,
+ *   message: "Vendor registration successful. Awaiting admin approval.",
+ *   data: { userId, email, status: "pending" }
+ * }
+ * 
+ * Error Responses:
+ * - 400: Invalid input
+ * - 409: Email or Tax ID already registered
+ * - 500: Server error
+ */
 auth.post('/register/vendor', async (c) => {
   try {
     const body = await c.req.json()
@@ -359,9 +481,30 @@ auth.post('/register/vendor', async (c) => {
   }
 })
 
-// GET /api/auth/me (protected route)
+/**
+ * GET /api/auth/me
+ * 
+ * Get current authenticated user's profile
+ * This endpoint is protected and requires a valid JWT token in Authorization header
+ * 
+ * Headers:
+ * Authorization: Bearer <jwt_token>
+ * 
+ * Response:
+ * {
+ *   success: true,
+ *   data: {
+ *     user: { id, email, role, status, created_at },
+ *     profile: { ... } (buyer or vendor profile)
+ *   }
+ * }
+ * 
+ * Error Responses:
+ * - 401: Not authenticated or invalid token
+ * - 404: User not found
+ */
 auth.get('/me', async (c) => {
-  // This would be called after authMiddleware
+  // This endpoint is called after authMiddleware sets user in context
   const user = c.get('user')
   
   if (!user) {
