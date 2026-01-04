@@ -1175,4 +1175,331 @@ buyerPages.get('/upload', (c) => {
   return c.html(buyerLayout(content, 'upload', lang))
 })
 
+// Dashboard Page
+buyerPages.get('/dashboard', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Dashboard</h1>
+        <p class="text-gray-600">Welcome back! Here's what's happening with your orders.</p>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Total RFQs</p>
+                    <p class="text-3xl font-bold text-gray-900" id="stat-rfqs">0</p>
+                </div>
+                <div class="bg-purple-100 p-3 rounded-lg">
+                    <i class="fas fa-file-alt text-purple-600 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Pending Quotations</p>
+                    <p class="text-3xl font-bold text-gray-900" id="stat-quotations">0</p>
+                </div>
+                <div class="bg-blue-100 p-3 rounded-lg">
+                    <i class="fas fa-file-invoice-dollar text-blue-600 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Active Orders</p>
+                    <p class="text-3xl font-bold text-gray-900" id="stat-orders">0</p>
+                </div>
+                <div class="bg-green-100 p-3 rounded-lg">
+                    <i class="fas fa-shopping-cart text-green-600 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+        
+        <div class="bg-white rounded-lg shadow p-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="text-gray-500 text-sm">Total Spent</p>
+                    <p class="text-3xl font-bold text-gray-900" id="stat-spent">EGP 0</p>
+                </div>
+                <div class="bg-yellow-100 p-3 rounded-lg">
+                    <i class="fas fa-money-bill-wave text-yellow-600 text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent RFQs -->
+    <div class="bg-white rounded-lg shadow mb-8">
+        <div class="p-6 border-b border-gray-200">
+            <div class="flex justify-between items-center">
+                <h2 class="text-xl font-bold text-gray-900">Recent RFQs</h2>
+                <a href="/buyer/rfqs" class="text-purple-600 hover:text-purple-700 font-medium">
+                    View All <i class="fas fa-arrow-right ml-1"></i>
+                </a>
+            </div>
+        </div>
+        <div id="recent-rfqs" class="p-6">
+            <!-- Will be loaded via JS -->
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/buyer/catalog" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition text-center">
+            <i class="fas fa-th-large text-4xl text-purple-600 mb-3"></i>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Browse Catalog</h3>
+            <p class="text-gray-600 text-sm">Explore our wide range of products</p>
+        </a>
+        
+        <a href="/buyer/rfq/create" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition text-center">
+            <i class="fas fa-plus-circle text-4xl text-green-600 mb-3"></i>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Create RFQ</h3>
+            <p class="text-gray-600 text-sm">Submit a new request for quotation</p>
+        </a>
+        
+        <a href="/buyer/upload" class="bg-white rounded-lg shadow p-6 hover:shadow-lg transition text-center">
+            <i class="fas fa-upload text-4xl text-blue-600 mb-3"></i>
+            <h3 class="text-lg font-bold text-gray-900 mb-2">Upload & OCR</h3>
+            <p class="text-gray-600 text-sm">Upload documents and extract data with AI</p>
+        </a>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+      const token = localStorage.getItem('token');
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        
+        // Load dashboard stats
+        axios.get('/api/rfqs')
+          .then(response => {
+            if (response.data.success) {
+              document.getElementById('stat-rfqs').textContent = response.data.data.pagination.total;
+              
+              // Display recent RFQs
+              const rfqs = response.data.data.rfqs.slice(0, 5);
+              const container = document.getElementById('recent-rfqs');
+              
+              if (rfqs.length === 0) {
+                container.innerHTML = \`
+                  <div class="text-center py-12 text-gray-500">
+                    <i class="fas fa-file-alt text-6xl mb-4 text-gray-300"></i>
+                    <p class="text-lg font-medium mb-2">No RFQs yet</p>
+                    <p class="text-sm mb-4">Create your first RFQ to get started!</p>
+                    <a href="/buyer/rfq/create" class="inline-block bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-700 transition">
+                      <i class="fas fa-plus mr-2"></i>Create RFQ
+                    </a>
+                  </div>
+                \`;
+              } else {
+                container.innerHTML = rfqs.map(rfq => \`
+                  <div class="border-b last:border-0 py-4">
+                    <div class="flex justify-between items-start">
+                      <div>
+                        <h3 class="font-semibold text-gray-900">\${rfq.title}</h3>
+                        <p class="text-sm text-gray-600">\${rfq.rfq_number}</p>
+                      </div>
+                      <span class="px-3 py-1 rounded-full text-xs font-medium bg-\${rfq.status === 'published' ? 'green' : rfq.status === 'draft' ? 'gray' : 'blue'}-100 text-\${rfq.status === 'published' ? 'green' : rfq.status === 'draft' ? 'gray' : 'blue'}-800">
+                        \${rfq.status}
+                      </span>
+                    </div>
+                  </div>
+                \`).join('');
+              }
+            }
+          })
+          .catch(error => {
+            console.error('Error loading stats:', error);
+            document.getElementById('recent-rfqs').innerHTML = \`
+              <div class="text-center py-12 text-gray-500">
+                <i class="fas fa-exclamation-circle text-6xl mb-4 text-gray-300"></i>
+                <p class="text-lg font-medium mb-2">Unable to load data</p>
+                <p class="text-sm">Please try refreshing the page</p>
+              </div>
+            \`;
+          });
+        
+        // Load orders count
+        axios.get('/api/orders')
+          .then(response => {
+            if (response.data.success) {
+              document.getElementById('stat-orders').textContent = response.data.data.pagination.total;
+            }
+          })
+          .catch(error => console.error('Error loading orders:', error));
+      }
+    </script>
+  `
+  return c.html(buyerLayout(content, 'dashboard', lang))
+})
+
+// Quotations Page
+buyerPages.get('/quotations', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Quotations</h1>
+        <p class="text-gray-600">Review and accept quotations from vendors</p>
+    </div>
+
+    <div id="quotations-list" class="space-y-6">
+        <!-- Loading state -->
+        <div class="text-center py-12">
+            <i class="fas fa-spinner fa-spin text-4xl text-purple-600 mb-4"></i>
+            <p class="text-gray-600">Loading quotations...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+      const token = localStorage.getItem('token');
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        
+        // Load quotations (bids on buyer's RFQs)
+        axios.get('/api/rfqs')
+          .then(response => {
+            const container = document.getElementById('quotations-list');
+            
+            if (response.data.success && response.data.data.rfqs.length > 0) {
+              // For each RFQ, fetch its bids
+              const rfqsWithBids = response.data.data.rfqs.filter(rfq => rfq.status === 'published');
+              
+              if (rfqsWithBids.length === 0) {
+                container.innerHTML = \`
+                  <div class="bg-white rounded-lg shadow p-12 text-center">
+                    <i class="fas fa-file-invoice-dollar text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">No Quotations Yet</h3>
+                    <p class="text-gray-600 mb-6">You'll see vendor quotations here once you publish RFQs</p>
+                    <a href="/buyer/rfq/create" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition">
+                      <i class="fas fa-plus mr-2"></i>Create RFQ
+                    </a>
+                  </div>
+                \`;
+              } else {
+                container.innerHTML = \`
+                  <div class="bg-white rounded-lg shadow p-12 text-center">
+                    <i class="fas fa-file-invoice-dollar text-6xl text-gray-300 mb-4"></i>
+                    <h3 class="text-xl font-bold text-gray-900 mb-2">Quotations Feature</h3>
+                    <p class="text-gray-600 mb-4">You have \${rfqsWithBids.length} published RFQ(s)</p>
+                    <p class="text-sm text-gray-500">Vendors can submit bids on your published RFQs</p>
+                    <a href="/buyer/rfqs" class="inline-block mt-4 text-purple-600 hover:text-purple-700 font-medium">
+                      View Your RFQs <i class="fas fa-arrow-right ml-1"></i>
+                    </a>
+                  </div>
+                \`;
+              }
+            } else {
+              container.innerHTML = \`
+                <div class="bg-white rounded-lg shadow p-12 text-center">
+                  <i class="fas fa-file-invoice-dollar text-6xl text-gray-300 mb-4"></i>
+                  <h3 class="text-xl font-bold text-gray-900 mb-2">No Quotations Yet</h3>
+                  <p class="text-gray-600 mb-6">Create an RFQ to receive quotations from vendors</p>
+                  <a href="/buyer/rfq/create" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <i class="fas fa-plus mr-2"></i>Create Your First RFQ
+                  </a>
+                </div>
+              \`;
+            }
+          })
+          .catch(error => {
+            console.error('Error loading quotations:', error);
+            document.getElementById('quotations-list').innerHTML = \`
+              <div class="bg-white rounded-lg shadow p-12 text-center">
+                <i class="fas fa-exclamation-circle text-6xl text-red-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Unable to Load Quotations</h3>
+                <p class="text-gray-600">Please try refreshing the page</p>
+              </div>
+            \`;
+          });
+      }
+    </script>
+  `
+  return c.html(buyerLayout(content, 'quotations', lang))
+})
+
+// Buy Again Page
+buyerPages.get('/buy-again', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Buy Again</h1>
+        <p class="text-gray-600">Reorder your frequently purchased items</p>
+    </div>
+
+    <div id="buy-again-list" class="space-y-6">
+        <!-- Loading state -->
+        <div class="text-center py-12">
+            <i class="fas fa-spinner fa-spin text-4xl text-purple-600 mb-4"></i>
+            <p class="text-gray-600">Loading your order history...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+      const token = localStorage.getItem('token');
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        
+        // Load completed orders
+        axios.get('/api/orders?status=completed')
+          .then(response => {
+            const container = document.getElementById('buy-again-list');
+            
+            if (response.data.success && response.data.data.orders.length > 0) {
+              container.innerHTML = response.data.data.orders.map(order => \`
+                <div class="bg-white rounded-lg shadow p-6">
+                  <div class="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 class="font-semibold text-gray-900">\${order.order_number}</h3>
+                      <p class="text-sm text-gray-600">Completed: \${new Date(order.updated_at).toLocaleDateString()}</p>
+                    </div>
+                    <button onclick="reorder('\${order.id}')" class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700 transition">
+                      <i class="fas fa-redo mr-2"></i>Reorder
+                    </button>
+                  </div>
+                  <div class="text-2xl font-bold text-gray-900">EGP \${order.total_amount.toLocaleString()}</div>
+                </div>
+              \`).join('');
+            } else {
+              container.innerHTML = \`
+                <div class="bg-white rounded-lg shadow p-12 text-center">
+                  <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+                  <h3 class="text-xl font-bold text-gray-900 mb-2">No Completed Orders Yet</h3>
+                  <p class="text-gray-600 mb-6">Your completed orders will appear here for easy reordering</p>
+                  <a href="/buyer/catalog" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <i class="fas fa-shopping-bag mr-2"></i>Start Shopping
+                  </a>
+                </div>
+              \`;
+            }
+          })
+          .catch(error => {
+            console.error('Error loading orders:', error);
+            document.getElementById('buy-again-list').innerHTML = \`
+              <div class="bg-white rounded-lg shadow p-12 text-center">
+                <i class="fas fa-exclamation-circle text-6xl text-red-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Unable to Load Orders</h3>
+                <p class="text-gray-600">Please try refreshing the page</p>
+              </div>
+            \`;
+          });
+      }
+      
+      function reorder(orderId) {
+        alert('Reorder functionality will be implemented. Order ID: ' + orderId);
+        // TODO: Implement reorder logic
+      }
+    </script>
+  `
+  return c.html(buyerLayout(content, 'buy-again', lang))
+})
+
 export default buyerPages

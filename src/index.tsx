@@ -12,6 +12,7 @@ import adminRoutes from './routes/admin'
 import buyerPagesRoutes from './routes/buyer-pages'
 import vendorPagesRoutes from './routes/vendor-pages'
 import adminPagesRoutes from './routes/admin-pages'
+import registerPagesRoutes from './routes/register-pages'
 import { authMiddleware } from './middleware/auth'
 import type { Bindings } from './types'
 
@@ -111,6 +112,7 @@ app.route('/api/admin', adminRoutes)
 app.route('/buyer', buyerPagesRoutes)
 app.route('/vendor', vendorPagesRoutes)
 app.route('/admin', adminPagesRoutes)
+app.route('/register', registerPagesRoutes)
 
 // Protected API example (with auth middleware)
 app.get('/api/protected', authMiddleware, (c) => {

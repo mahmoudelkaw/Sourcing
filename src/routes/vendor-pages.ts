@@ -461,4 +461,77 @@ vendorPages.get('/bids', (c) => {
   return c.html(getVendorLayout(content, 'My Bids'))
 })
 
+// Orders Page
+vendorPages.get('/orders', (c) => {
+  const lang = (c.req.query('lang') || 'en') as Language
+  const content = `
+    <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-2">Orders</h1>
+        <p class="text-gray-600">Manage your accepted orders</p>
+    </div>
+
+    <div id="orders-list" class="space-y-6">
+        <!-- Loading state -->
+        <div class="text-center py-12">
+            <i class="fas fa-spinner fa-spin text-4xl text-purple-600 mb-4"></i>
+            <p class="text-gray-600">Loading orders...</p>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios@1.6.0/dist/axios.min.js"></script>
+    <script>
+      const token = localStorage.getItem('token');
+      if (token) {
+        axios.defaults.headers.common['Authorization'] = 'Bearer ' + token;
+        
+        // Load vendor orders
+        axios.get('/api/orders')
+          .then(response => {
+            const container = document.getElementById('orders-list');
+            
+            if (response.data.success && response.data.data.orders.length > 0) {
+              container.innerHTML = response.data.data.orders.map(order => \`
+                <div class="bg-white rounded-lg shadow p-6">
+                  <div class="flex justify-between items-start mb-4">
+                    <div>
+                      <h3 class="font-semibold text-gray-900">\${order.order_number}</h3>
+                      <p class="text-sm text-gray-600">Created: \${new Date(order.created_at).toLocaleDateString()}</p>
+                    </div>
+                    <span class="px-3 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                      \${order.status}
+                    </span>
+                  </div>
+                  <div class="text-2xl font-bold text-gray-900 mb-2">EGP \${order.total_amount.toLocaleString()}</div>
+                  <div class="text-sm text-gray-600">Delivery: \${new Date(order.delivery_date).toLocaleDateString()}</div>
+                </div>
+              \`).join('');
+            } else {
+              container.innerHTML = \`
+                <div class="bg-white rounded-lg shadow p-12 text-center">
+                  <i class="fas fa-shopping-cart text-6xl text-gray-300 mb-4"></i>
+                  <h3 class="text-xl font-bold text-gray-900 mb-2">No Orders Yet</h3>
+                  <p class="text-gray-600 mb-6">Your accepted bids will appear here as orders</p>
+                  <a href="/vendor/rfqs" class="inline-block bg-purple-600 text-white px-6 py-3 rounded-lg hover:bg-purple-700 transition">
+                    <i class="fas fa-clipboard-list mr-2"></i>Browse RFQs
+                  </a>
+                </div>
+              \`;
+            }
+          })
+          .catch(error => {
+            console.error('Error loading orders:', error);
+            document.getElementById('orders-list').innerHTML = \`
+              <div class="bg-white rounded-lg shadow p-12 text-center">
+                <i class="fas fa-exclamation-circle text-6xl text-red-300 mb-4"></i>
+                <h3 class="text-xl font-bold text-gray-900 mb-2">Unable to Load Orders</h3>
+                <p class="text-gray-600">Please try refreshing the page</p>
+              </div>
+            \`;
+          });
+      }
+    </script>
+  `
+  return c.html(getVendorLayout(content, 'Orders'))
+})
+
 export default vendorPages
